@@ -3,6 +3,8 @@
 var fs = require('fs');
 var log = require(__base + 'src/lib/log');
 var speech = require(__base + 'src/lib/speech');
+var dataBase = require(__base + 'src/lib/db');
+var db = dataBase.getDb();
 
 const gearNamePrefix = 'gear-';
 
@@ -33,6 +35,7 @@ module.exports = class Assembler {
 
    loadGear(gears, gear, index) {
       logAddingGear(gears, gear, index);
+      this.tryToLoad('gearStatus', gear, this.loadGearStatus);
       this.tryToLoad('tasks', gear, this.loadTasks);
       this.tryToLoad('categories', gear, this.loadCategories);
       this.tryToLoad('handlers', gear, this.loadHandlers);
@@ -45,6 +48,16 @@ module.exports = class Assembler {
       } catch (error) {
          logErrorLoadingGear(type, error);
       }
+   }
+
+   loadGearStatus(gear, self) {
+      db.get('SELECT * FROM gears WHERE name = ?', gear, function (err, record) {
+         if (err) { log.error(err); }
+
+         if (!record) {
+            db.run('INSERT INTO gears(name, active) VALUES(?, ?)', gear, 'NO');
+         }
+      });
    }
 
    loadTasks(gear, self) {
