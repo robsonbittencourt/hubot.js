@@ -1,8 +1,12 @@
 node_modules
 
+test
+
 .editorconfig
 
 .gitignore
+
+.travis.yml
 
 LICENSE
 
