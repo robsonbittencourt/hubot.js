@@ -6,7 +6,7 @@ WORKDIR /hubot
 
 COPY ./package.json /hubot/
 
-RUN npm install
+RUN npm install --production
 
 COPY ./ /hubot/
 
