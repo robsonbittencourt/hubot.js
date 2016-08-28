@@ -7,6 +7,8 @@ var Assembler = require(__base + 'src/lib/assembler');
 var messageHandler = require(__base + 'src/lib/message-handler');
 var speech = require(__base + 'src/lib/speech');
 let Q = require('q');
+var db = require(__base + 'src/lib/db').getDb();
+var isFirstRun = false;
 
 process.on('uncaughtException', function (exception) {
   log.error(exception);
@@ -32,13 +34,35 @@ Hubot.prototype.run = function () {
 Hubot.prototype._onStart = function () {
    this._loadBotUser();
    this.core = new Assembler().build();
+   this._firstRunChecker();
+};
+
+Hubot.prototype._firstRunChecker = function () {
+   db.get('SELECT * FROM first_use', function (err, record) {
+      if (err) { log.error(err); }
+
+      if (!record || !record.first_use) {
+         isFirstRun = true;
+      } 
+   });
 };
 
 Hubot.prototype._onMessage = function (message) {
-   if (this._isChatMessage(message) && !this._isFromHubot(message)) { 
-      messageHandler.callTasks(message, this);
+   if (this._isChatMessage(message) && !this._isFromHubot(message)) {
+      if (isFirstRun) {
+         isFirstRun = false;
+         this._firstRun(message);
+      } else {
+         messageHandler.callTasks(message, this);
+      }
    }
 };
+
+Hubot.prototype._firstRun = function(message) {
+   db.run("INSERT INTO first_use(first_use) VALUES('NO')");
+   db.run("INSERT INTO hubot(admin) VALUES(?)", message.user);
+   this.postMessage(this.getRecipient(message), this.speech().hello(this._getUserById(message.user)).end(), {as_user: true});
+}
 
 Hubot.prototype._loadBotUser = function () {
    this.user = this._getUserByName(this.name);
@@ -65,7 +89,7 @@ Hubot.prototype._isPrivateConversation = function (message) {
 };
 
 Hubot.prototype._isFromHubot = function (message) {
-   return message.user === this.user.id;
+   return message.user === this._getUserByName(this.user.name);
 };
 
 Hubot.prototype.speech = function (message) {

@@ -22,8 +22,8 @@ function createDb() {
 
    db.serialize();
    
-   db.run('CREATE TABLE IF NOT EXISTS hubot (name TEXT NOT NULL, first_use TEXT NOT NULL)');
-   db.run('CREATE TABLE IF NOT EXISTS admin (user TEXT NOT NULL)');
+   db.run('CREATE TABLE IF NOT EXISTS hubot (admin TEXT NOT NULL)');
+   db.run('CREATE TABLE IF NOT EXISTS first_use (first_use TEXT NOT NULL)');
    db.run('CREATE TABLE IF NOT EXISTS gears (name TEXT NOT NULL, active TEXT NOT NULL)');
 
    return db;

@@ -3,8 +3,7 @@
 var fs = require('fs');
 var log = require(__base + 'src/lib/log');
 var speech = require(__base + 'src/lib/speech');
-var dataBase = require(__base + 'src/lib/db');
-var db = dataBase.getDb();
+var db = require(__base + 'src/lib/db').getDb();
 
 const gearNamePrefix = 'gear-';
 
