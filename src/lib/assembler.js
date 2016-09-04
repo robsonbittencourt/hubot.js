@@ -11,6 +11,7 @@ module.exports = class Assembler {
 
    constructor() {
       this.core = {
+         gears: [],
          tasks: [],
          categories: [],
          handlers: []
@@ -28,6 +29,8 @@ module.exports = class Assembler {
             return e.startsWith(gearNamePrefix);
          });
 
+         self.core.gears = gears;
+         
          gears.forEach((gear, index) => self.loadGear(gears, gear, index));
       });
    };

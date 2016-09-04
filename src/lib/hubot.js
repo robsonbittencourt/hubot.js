@@ -89,7 +89,7 @@ Hubot.prototype._isPrivateConversation = function (message) {
 };
 
 Hubot.prototype._isFromHubot = function (message) {
-   return message.user === this._getUserByName(this.user.name);
+   return message.user === this.user.id;
 };
 
 Hubot.prototype.speech = function (message) {
