@@ -34,7 +34,7 @@ describe('Hubot Assembler', function() {
       });
    });
 
-   describe('Hubot Assembler - Loader', function() {
+   describe.only('Hubot Assembler - Loader', function() {
       it('should load task file correctly', function() {
          var assembler = getAssembler();
          assembler.loadTasks('gear-test', assembler);
@@ -74,6 +74,7 @@ describe('Hubot Assembler', function() {
          assembler.loadGear(null, null, null);
          expect(assembler.core).to.be.deep.equal({
             gears: [],
+            configs: [],
             tasks: [],
             categories: [],
             handlers: []
@@ -85,6 +86,7 @@ describe('Hubot Assembler', function() {
          assembler.loadGear([], { noKey: 'invalid' }, 0);
          expect(assembler.core).to.be.deep.equal({
             gears: [],
+            configs: [],
             tasks: [],
             categories: [],
             handlers: []

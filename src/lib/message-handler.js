@@ -32,10 +32,12 @@ function callTasks(message, hubot) {
    if (isGearConfigureMessage(hubot, message)) {
       var param = {
          user: message.user,
-         configs: gearConfig
+         configs: discoverConfig(hubot, message)
       }
 
-      conversation.startConversation(hubot, param);
+      conversation.startConversation(hubot, param, function(configs) {
+         //configHandler.config(configs);
+      });
    } 
 
    hubot.core.tasks.forEach(function(task) {
@@ -54,6 +56,12 @@ function isGearConfigureMessage(hubot, message) {
       
       return message.text === configureMessage;
    }) != null;
+}
+
+function discoverConfig(hubot, message) {
+   //var gearName = message.replace("configure ", "");
+   return hubot.core.configs;
+
 }
 
 function getHandler(hubot, task) {

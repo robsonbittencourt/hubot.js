@@ -12,6 +12,7 @@ module.exports = class Assembler {
    constructor() {
       this.core = {
          gears: [],
+         configs: [],
          tasks: [],
          categories: [],
          handlers: []
@@ -38,6 +39,7 @@ module.exports = class Assembler {
    loadGear(gears, gear, index) {
       logAddingGear(gears, gear, index);
       this.tryToLoad('gearStatus', gear, this.loadGearStatus);
+      this.tryToLoad('configs', gear, this.loadConfigs);
       this.tryToLoad('tasks', gear, this.loadTasks);
       this.tryToLoad('categories', gear, this.loadCategories);
       this.tryToLoad('handlers', gear, this.loadHandlers);
@@ -62,6 +64,10 @@ module.exports = class Assembler {
       });
    }
 
+   loadConfigs(gear, self) {
+      self.core.configs = self.core.configs.concat(require(self.configsPath(gear)));
+   }
+
    loadTasks(gear, self) {
       self.core.tasks = self.core.tasks.concat(require(self.tasksPath(gear)));
    }
@@ -81,6 +87,10 @@ module.exports = class Assembler {
 
    containsHandler(handler) {
       return this.core.handlers.find(h => h.key === handler) != null;
+   }
+
+   configsPath(gear) {
+      return __nodeModules + gear + '/config/config.json';
    }
    
    tasksPath(gear) {
