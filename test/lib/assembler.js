@@ -34,7 +34,7 @@ describe('Hubot Assembler', function() {
       });
    });
 
-   describe.only('Hubot Assembler - Loader', function() {
+   describe('Hubot Assembler - Loader', function() {
       it('should load task file correctly', function() {
          var assembler = getAssembler();
          assembler.loadTasks('gear-test', assembler);
