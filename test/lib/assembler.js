@@ -73,6 +73,7 @@ describe('Hubot Assembler', function() {
          var assembler = getAssembler();
          assembler.loadGear(null, null, null);
          expect(assembler.core).to.be.deep.equal({
+            gears: [],
             tasks: [],
             categories: [],
             handlers: []
@@ -83,6 +84,7 @@ describe('Hubot Assembler', function() {
          var assembler = getAssembler();
          assembler.loadGear([], { noKey: 'invalid' }, 0);
          expect(assembler.core).to.be.deep.equal({
+            gears: [],
             tasks: [],
             categories: [],
             handlers: []
