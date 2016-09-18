@@ -67,7 +67,10 @@ module.exports = class Assembler {
    }
 
    loadConfigs(gear, self) {
-      self.core.configs = self.core.configs.concat(require(self.configsPath(gear)));
+      var gearName = gear.replace("gear-", "");
+      var gearConfig = { gear: gearName, configs: require(self.configsPath(gear)) };
+
+      self.core.configs = self.core.configs.concat(gearConfig);
    }
 
    loadTasks(gear, self) {

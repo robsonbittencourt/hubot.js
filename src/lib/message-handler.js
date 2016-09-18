@@ -41,9 +41,9 @@ function isGearConfigureMessage(hubot, message) {
 }
 
 function discoverConfig(hubot, message) {
-   //var gearName = message.replace("configure ", "");
-   return hubot.core.configs;
-
+   var gearName = message.text.replace("configure ", "");
+   
+   return hubot.core.configs.find(c => c.gear === gearName).configs;
 }
 
 function getHandler(hubot, task) {
