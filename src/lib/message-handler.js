@@ -5,24 +5,6 @@ exports.callTasks = callTasks;
 var trigger = require(__base + 'src/lib/trigger');
 var conversation = require(__base + 'src/lib/conversation');
 
-var gearConfig = [
-   {
-      "id": 1,
-      "question": "Qual sua url do Jenkins?"
-   },
-
-   {
-      "id": 2,
-      "question": "Você utiliza CRFS no seu Jenkins?",
-      "respostasEsperadas": ["Sim", "Não"]
-   },
-
-   {
-      "id": 3,
-      "question": "Tudo certo. Jenkins configurado"
-   }
-]; 
-
 function callTasks(message, hubot) {
    if (conversation.hasActiveConversation(message)) {
       conversation.notify(message);
