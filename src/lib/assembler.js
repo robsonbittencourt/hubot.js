@@ -59,7 +59,9 @@ module.exports = class Assembler {
          if (err) { log.error(err); }
 
          if (!record) {
-            db.run('INSERT INTO gears(name, active) VALUES(?, ?)', gear, 'NO');
+            db.run('INSERT INTO gears(name, active) VALUES(?, ?)', gear, 'NO', function (err) {
+               if (err) { log.error(err); }
+            });
          }
       });
    }
