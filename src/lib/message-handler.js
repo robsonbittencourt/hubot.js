@@ -27,7 +27,7 @@ function callTasks(message, hubot) {
    if (conversation.hasActiveConversation(message)) {
       conversation.notify(message);
       return;
-   }  
+   } 
 
    if (isGearConfigureMessage(hubot, message)) {
       var param = {
@@ -51,9 +51,9 @@ function callTasks(message, hubot) {
 }
 
 function isGearConfigureMessage(hubot, message) {
-   return hubot.core.gears.find(gear => function(gear) {
+   return hubot.core.gears.find(function(gear) {
       var configureMessage = 'configure ' + gear.replace("gear-", ""); 
-      
+    
       return message.text === configureMessage;
    }) != null;
 }
