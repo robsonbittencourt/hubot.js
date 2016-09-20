@@ -18,7 +18,8 @@ function callTasks(message, hubot) {
       }
 
       conversation.startConversation(hubot, param, function(configs) {
-         //configHandler.config(configs);
+         var configHandler = getConfigHandler(hubot, message);
+         configHandler.handle(configs);
       });
    } 
 
@@ -48,4 +49,10 @@ function discoverConfig(hubot, message) {
 
 function getHandler(hubot, task) {
    return hubot.core.handlers.find(h => h.key === task.handler);
+}
+
+function getConfigHandler(hubot, message) {
+   var gearName = message.text.replace("configure ", "");
+
+   return hubot.core.configHandlers.find(c => c.gear === gearName).handler;
 }

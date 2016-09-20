@@ -15,7 +15,8 @@ module.exports = class Assembler {
          configs: [],
          tasks: [],
          categories: [],
-         handlers: []
+         handlers: [], 
+         configHandlers: []
       };
    }
 
@@ -43,6 +44,7 @@ module.exports = class Assembler {
       this.tryToLoad('tasks', gear, this.loadTasks);
       this.tryToLoad('categories', gear, this.loadCategories);
       this.tryToLoad('handlers', gear, this.loadHandlers);
+      this.tryToLoad('configHandler', gear, this.loadConfigHandler);
    }
 
    tryToLoad(type, gear, assemble) {
@@ -90,6 +92,13 @@ module.exports = class Assembler {
       });
    }
 
+   loadConfigHandler(gear, self) {
+      var gearName = gear.replace("gear-", "");
+      var gearConfigHandler = { gear: gearName, handler: require(self.configsHandlersPath(gear)) };
+
+      self.core.configHandlers = self.core.configHandlers.concat(gearConfigHandler);
+   }
+
    containsHandler(handler) {
       return this.core.handlers.find(h => h.key === handler) != null;
    }
@@ -97,7 +106,7 @@ module.exports = class Assembler {
    configsPath(gear) {
       return __nodeModules + gear + '/config/config.json';
    }
-   
+
    tasksPath(gear) {
       return __nodeModules + gear + '/config/tasks.json';
    }
@@ -108,6 +117,10 @@ module.exports = class Assembler {
 
    handlersPath(gear, handler) {
       return __nodeModules + gear + '/src/handlers/' + handler;
+   }
+
+   configsHandlersPath(gear) {
+      return __nodeModules + gear + '/src/configHandler/configHandler';
    }
 }
 
