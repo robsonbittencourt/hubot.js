@@ -63,7 +63,12 @@ Hubot.prototype._firstRun = function(message) {
    db.run("INSERT INTO hubot(admin) VALUES(?)", message.user);
    
    this.isFirstRun = false;
-   this.postMessage(this.getRecipient(message), this.speech().hello(this._getUserById(message.user)).end(), {as_user: true});
+   this.postMessage(this.getRecipient(message), message1(this, message), {as_user: true});
+   this.postMessage(this.getRecipient(message), message2(this), {as_user: true});
+   this.postMessage(this.getRecipient(message), message3(this), {as_user: true});
+   this.postMessage(this.getRecipient(message), message4(this), {as_user: true});
+   this.postMessage(this.getRecipient(message), message5(this), {as_user: true});
+   this.postMessage(this.getRecipient(message), postGearsNames(this), {as_user: true});
 }
 
 Hubot.prototype._loadBotUser = function () {
@@ -131,4 +136,32 @@ Hubot.prototype.talk = function (message, text, delay) {
 
 function isFirstInteraction(hubot, message) {
    return hubot.isFirstRun && hubot._isPrivateConversation(message) && message.text === hubot.name;
+}
+
+function message1(hubot, message) {
+   return hubot.speech().hello(hubot._getUserById(message.user)).append("My name is ").append(hubot.name).append(" and from now on I will help you with some tasks using the Slack.").end();
+}
+
+function message2(hubot) {
+   return hubot.speech().append("Before I need you to do some settings. How was you who started me I will define it as my system administrator. So you can access the settings in the future.").end();
+}
+
+function message3(hubot) {
+   return hubot.speech().append("Initially I do not know perform tasks. But there are gears that when coupled to me add me skills.").end();
+}
+
+function message4(hubot) {
+   return hubot.speech().append("At this time all the gears are inactive. You can activate them and set them up after using the command ").bold("activate gear-name").end();
+}
+
+function message5(hubot) {
+   return hubot.speech().append("Below is a list of gears available:").end();
+}
+
+function postGearsNames(hubot) {
+   var speech = hubot.speech();
+   
+   hubot.gears.forEach(g => speech.item(g.description).line());
+
+   return speech.end();
 }
