@@ -21,38 +21,39 @@ function callTasks(message, hubot) {
          var configHandler = getConfigHandler(hubot, message);
          configHandler.handle(configs);
       });
-   } 
+   }
 
-   hubot.core.tasks.forEach(function(task) {
-      var acceptance = trigger.check(message.text, task.trigger);
-      if (acceptance.ok) {
-         var handler = getHandler(hubot, task);
-         handler.handle(hubot, message, task, acceptance.params);
-      }
+   hubot.gears.forEach(function(gear) {
+      gear.tasks.forEach(function(task) {
+         var acceptance = trigger.check(message.text, task.trigger);
+         if (acceptance.ok) {
+            var handler = getHandler(gear, task);
+            handler.handle(hubot, message, task, acceptance.params);
+         }
+      }); 
    });   
-   
 }
 
 function isGearConfigureMessage(hubot, message) {
-   return hubot.core.gears.find(function(gear) {
-      var configureMessage = 'configure ' + gear.replace("gear-", ""); 
+   return hubot.gears.find(function(gear) {
+      var configureMessage = 'configure ' + gear.description; 
     
       return message.text === configureMessage;
    }) != null;
 }
 
 function discoverConfig(hubot, message) {
-   var gearName = message.text.replace("configure ", "");
+   var gearDescription = message.text.replace("configure ", "");
    
-   return hubot.core.configs.find(c => c.gear === gearName).configs;
+   return hubot.gears.find(g => g.description === gearDescription).configs;
 }
 
-function getHandler(hubot, task) {
-   return hubot.core.handlers.find(h => h.key === task.handler);
+function getHandler(gear, task) {
+   return gear.handlers.find(h => h.key === task.handler);
 }
 
 function getConfigHandler(hubot, message) {
-   var gearName = message.text.replace("configure ", "");
+   var gearDescription = message.text.replace("configure ", "");
 
-   return hubot.core.configHandlers.find(c => c.gear === gearName).handler;
+   return hubot.gears.find(g => g.description === gearDescription).handler;
 }

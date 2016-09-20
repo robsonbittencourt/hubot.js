@@ -33,7 +33,7 @@ Hubot.prototype.run = function () {
 
 Hubot.prototype._onStart = function () {
    this._loadBotUser();
-   this.core = new Assembler().build();
+   this.gears = new Assembler().build();
    this._firstRunChecker();
 };
 
