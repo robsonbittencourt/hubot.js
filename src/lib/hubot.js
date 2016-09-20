@@ -1,4 +1,4 @@
-'use strict';
+ 'use strict';
 
 var util = require('util');
 var Bot = require('slackbots');
@@ -8,7 +8,6 @@ var messageHandler = require(__base + 'src/lib/message-handler');
 var speech = require(__base + 'src/lib/speech');
 let Q = require('q');
 var db = require(__base + 'src/lib/db').getDb();
-var isFirstRun = false;
 
 process.on('uncaughtException', function (exception) {
   log.error(exception);
@@ -18,6 +17,7 @@ var Hubot = function Constructor(settings) {
    this.settings = settings;
    this.name = this.settings.name;
    this.user = null;
+   this.isFirstRun = false;
 };
 
 util.inherits(Hubot, Bot);
@@ -38,29 +38,31 @@ Hubot.prototype._onStart = function () {
 };
 
 Hubot.prototype._firstRunChecker = function () {
+   var self = this;
    db.get('SELECT * FROM first_use', function (err, record) {
       if (err) { log.error(err); }
 
       if (!record || !record.first_use) {
-         isFirstRun = true;
+         self.isFirstRun = true;
       } 
    });
 };
 
 Hubot.prototype._onMessage = function (message) {
    if (this._isChatMessage(message) && !this._isFromHubot(message)) {
-      if (isFirstRun) {
-         isFirstRun = false;
+      if (isFirstInteraction(this, message)) {
          this._firstRun(message);
       } else {
          messageHandler.callTasks(message, this);
-      }
+      }  
    }
 };
 
 Hubot.prototype._firstRun = function(message) {
    db.run("INSERT INTO first_use(first_use) VALUES('NO')");
    db.run("INSERT INTO hubot(admin) VALUES(?)", message.user);
+   
+   this.isFirstRun = false;
    this.postMessage(this.getRecipient(message), this.speech().hello(this._getUserById(message.user)).end(), {as_user: true});
 }
 
@@ -125,4 +127,8 @@ Hubot.prototype.talkTo = function (recipient, text, message, delay = 1000) {
 
 Hubot.prototype.talk = function (message, text, delay) {
    return this.talkTo(this.getRecipient(message), text, message, delay);
+}
+
+function isFirstInteraction(hubot, message) {
+   return hubot.isFirstRun && hubot._isPrivateConversation(message) && message.text === hubot.name;
 }

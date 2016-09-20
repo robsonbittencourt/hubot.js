@@ -6,6 +6,10 @@ var trigger = require(__base + 'src/lib/trigger');
 var conversation = require(__base + 'src/lib/conversation');
 
 function callTasks(message, hubot) {
+   if (hubot.isFirstRun) {
+      return;
+   }
+
    if (conversation.hasActiveConversation(message)) {
       conversation.notify(message);
       return;
