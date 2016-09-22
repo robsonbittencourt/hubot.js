@@ -3,7 +3,7 @@
 var fs = require('fs');
 var log = require(__base + 'src/lib/log');
 var speech = require(__base + 'src/lib/speech');
-var db = require(__base + 'src/lib/db').getDb();
+var db = new (require(__base + 'src/lib/db2'));
 
 const gearNamePrefix = 'gear-';
 
@@ -54,13 +54,9 @@ module.exports = class Assembler {
    }
 
    loadGearStatus(gear, self) {
-      db.get('SELECT * FROM gears WHERE name = ?', gear.name, function (err, record) {
-         if (err) { log.error(err); }
-         
+      db.get('SELECT * FROM gears WHERE name = ?', gear.name).then(function(record) {
          if (!record) {
-            db.run('INSERT INTO gears(name, active) VALUES(?, ?)', gear.name, 'NO', function (err) {
-               if (err) { log.error(err); }
-            });
+            db.run('INSERT INTO gears(name, active) VALUES(?, ?)', [gear.name, 'NO']);
          }
       });
    }

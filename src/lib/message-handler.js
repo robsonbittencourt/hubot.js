@@ -13,7 +13,14 @@ function callTasks(message, hubot) {
    if (conversation.hasActiveConversation(message)) {
       conversation.notify(message);
       return;
-   } 
+   }
+
+   if (isGearActivateMessage(hubot, message)) {
+      if (hubot._isAdminUser(message.user)) {
+         console.log('ok');
+         return;
+      }
+   }
 
    if (isGearConfigureMessage(hubot, message)) {
       var param = {
@@ -36,6 +43,14 @@ function callTasks(message, hubot) {
          }
       }); 
    });   
+}
+
+function isGearActivateMessage(hubot, message) {
+   return hubot.gears.find(function(gear) {
+      var configureMessage = 'activate ' + gear.description; 
+    
+      return message.text === configureMessage;
+   }) != null;
 }
 
 function isGearConfigureMessage(hubot, message) {

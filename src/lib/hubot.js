@@ -6,8 +6,12 @@ var log = require(__base + 'src/lib/log');
 var Assembler = require(__base + 'src/lib/assembler');
 var messageHandler = require(__base + 'src/lib/message-handler');
 var speech = require(__base + 'src/lib/speech');
+<<<<<<< 29340a672ed8baf528dbf67e67189afd97e18e29
 let Q = require('q');
 var db = require(__base + 'src/lib/db').getDb();
+=======
+var db = new (require(__base + 'src/lib/db2'));
+>>>>>>> Create new db class. Working in progress
 
 process.on('uncaughtException', function (exception) {
   log.error(exception);
@@ -38,10 +42,9 @@ Hubot.prototype._onStart = function () {
 };
 
 Hubot.prototype._firstRunChecker = function () {
-   var self = this;
-   db.get('SELECT * FROM first_use', function (err, record) {
-      if (err) { log.error(err); }
+   let self = this;
 
+   db.get('SELECT * FROM first_use').then(function(record) {
       if (!record || !record.first_use) {
          self.isFirstRun = true;
       } 
@@ -133,6 +136,18 @@ Hubot.prototype.talkTo = function (recipient, text, message, delay = 1000) {
 Hubot.prototype.talk = function (message, text, delay) {
    return this.talkTo(this.getRecipient(message), text, message, delay);
 }
+
+Hubot.prototype._isAdminUser = function (user) {
+   db.get('SELECT * FROM hubot', function (err, record) {
+      if (err) { log.error(err); }
+
+      if (record) {
+         return record.admin === user;
+      }
+
+      return false; 
+   });
+};
 
 function isFirstInteraction(hubot, message) {
    return hubot.isFirstRun && hubot._isPrivateConversation(message) && message.text === hubot.name;
