@@ -59,7 +59,7 @@ Hubot.prototype._onMessage = function (message) {
 
 Hubot.prototype._firstRun = function(message) {
    db.run("INSERT INTO first_use(first_use) VALUES('NO')");
-   db.run("INSERT INTO hubot(admin) VALUES(?)", message.user);
+   db.run("INSERT INTO admins(admin) VALUES(?)", message.user);
    
    this.isFirstRun = false;
    this.postMessage(this.getRecipient(message), message1(this, message), {as_user: true});
@@ -134,16 +134,12 @@ Hubot.prototype.talk = function (message, text, delay) {
 }
 
 Hubot.prototype._isAdminUser = function (user) {
-   db.get('SELECT * FROM hubot', function (err, record) {
-      if (err) { log.error(err); }
-
-      if (record) {
-         return record.admin === user;
-      }
-
-      return false; 
-   });
+   return db.get('SELECT * FROM admins WHERE admin = ?', user);
 };
+
+Hubot.prototype._activateGear = function (gear) {
+   return db.run('UPDATE gears SET active = "YES" WHERE description = ?', gear);
+}
 
 function isFirstInteraction(hubot, message) {
    return hubot.isFirstRun && hubot._isPrivateConversation(message) && message.text === hubot.name;

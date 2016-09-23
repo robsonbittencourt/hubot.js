@@ -16,10 +16,15 @@ function callTasks(message, hubot) {
    }
 
    if (isGearActivateMessage(hubot, message)) {
-      if (hubot._isAdminUser(message.user)) {
-         console.log('ok');
-         return;
+      function activateGear(isAdmin) {
+         if (isAdmin) {
+            var gearDescription = message.text.replace("activate ", "");
+
+            hubot._activateGear(gearDescription);
+         }         
       }
+
+      hubot._isAdminUser(message.user).then(activateGear);
    }
 
    if (isGearConfigureMessage(hubot, message)) {
