@@ -6,12 +6,8 @@ var log = require(__base + 'src/lib/log');
 var Assembler = require(__base + 'src/lib/assembler');
 var messageHandler = require(__base + 'src/lib/message-handler');
 var speech = require(__base + 'src/lib/speech');
-<<<<<<< 29340a672ed8baf528dbf67e67189afd97e18e29
 let Q = require('q');
-var db = require(__base + 'src/lib/db').getDb();
-=======
-var db = new (require(__base + 'src/lib/db2'));
->>>>>>> Create new db class. Working in progress
+var db = new (require(__base + 'src/lib/db'));
 
 process.on('uncaughtException', function (exception) {
   log.error(exception);

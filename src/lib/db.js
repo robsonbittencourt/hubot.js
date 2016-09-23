@@ -1,36 +1,78 @@
 'use strict';
 
-exports.getDb = getDb;
+let Q = require('q');
+let fs = require('fs');
+let log = require(__base + 'src/lib/log');
+let path = require('path');
+let sqlite3 = require('sqlite3');
 
-var path = require('path');
-var fs = require('fs');
-var sqlite3 = require('sqlite3');
+module.exports = class DataBase {
 
-function getDb() {
-   var dbPath = path.resolve(process.cwd(), 'data', 'hubot.db');
+   constructor() {
+      this.outputFile = path.resolve(process.cwd(), 'data', 'hubot.db');
 
-   if (!fs.existsSync(dbPath)) {
-      return createDb();
+      if (!fs.existsSync(this.outputFile)) {
+         return createDb(this);
+      }
+
+      return updateDb(this);
    }
 
-   return updateDb(dbPath);
+   run(sql, params) {
+      let deferred = Q.defer();
+
+      this.db.run(sql, params, function(err) {
+         resultHandler(deferred, err);
+      });
+
+      return deferred.promise;;
+   }
+
+   get(sql, params) {
+      let deferred = Q.defer();
+
+      this.db.get(sql, params, function(err, row) {
+         resultHandler(deferred, err, row);
+      });
+
+      return deferred.promise;;
+   }
+
+   all(sql, params) {
+      let deferred = Q.defer();
+
+      this.db.all(sql, params, function(err, rows) {
+         resultHandler(deferred, err, rows);
+      });
+
+      return deferred.promise;;
+   }
+
 }
 
-function createDb() {
-   var outputFile = path.resolve(process.cwd(), 'data', 'hubot.db');
-   var db = new sqlite3.Database(outputFile);
+function createDb(dataBase) {
+   dataBase.db = new sqlite3.Database(dataBase.outputFile);
 
-   db.serialize();
+   dataBase.db.serialize();
    
-   db.run('CREATE TABLE IF NOT EXISTS hubot (admin TEXT NOT NULL)');
-   db.run('CREATE TABLE IF NOT EXISTS first_use (first_use TEXT NOT NULL)');
-   db.run('CREATE TABLE IF NOT EXISTS gears (name TEXT NOT NULL, active TEXT NOT NULL)');
+   dataBase.db.run('CREATE TABLE IF NOT EXISTS hubot (admin TEXT NOT NULL)');
+   dataBase.db.run('CREATE TABLE IF NOT EXISTS first_use (first_use TEXT NOT NULL)');
+   dataBase.db.run('CREATE TABLE IF NOT EXISTS gears (name TEXT NOT NULL, active TEXT NOT NULL)');
 
-   return db;
+   return dataBase;
 }
 
-function updateDb(dbPath) {
-   var db = new sqlite3.Database(dbPath);
+function updateDb(dataBase) {
+   dataBase.db = new sqlite3.Database(dataBase.outputFile);
+   
+   return dataBase;
+}
 
-   return db;
+function resultHandler(deferred, err, result) {
+   if (err) {
+      log.error(err);
+      deferred.reject(err);
+   } else {
+      deferred.resolve(result);
+   }
 }

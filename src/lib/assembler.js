@@ -3,7 +3,7 @@
 var fs = require('fs');
 var log = require(__base + 'src/lib/log');
 var speech = require(__base + 'src/lib/speech');
-var db = new (require(__base + 'src/lib/db2'));
+var db = new (require(__base + 'src/lib/db'));
 
 const gearNamePrefix = 'gear-';
 
