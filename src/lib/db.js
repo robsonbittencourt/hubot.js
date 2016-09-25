@@ -20,12 +20,12 @@ module.exports = class DataBase {
 
    run(sql, params) {
       let deferred = Q.defer();
-
+      
       this.db.run(sql, params, function(err) {
          resultHandler(deferred, err);
       });
 
-      return deferred.promise;;
+      return deferred.promise;
    }
 
    get(sql, params) {
@@ -35,7 +35,7 @@ module.exports = class DataBase {
          resultHandler(deferred, err, row);
       });
 
-      return deferred.promise;;
+      return deferred.promise;
    }
 
    all(sql, params) {
@@ -45,7 +45,7 @@ module.exports = class DataBase {
          resultHandler(deferred, err, rows);
       });
 
-      return deferred.promise;;
+      return deferred.promise;
    }
 
 }

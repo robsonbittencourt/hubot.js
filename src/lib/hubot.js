@@ -141,6 +141,10 @@ Hubot.prototype._activateGear = function (gear) {
    return db.run('UPDATE gears SET active = "YES" WHERE description = ?', gear);
 }
 
+Hubot.prototype._deactivateGear = function (gear) {
+   return db.run('UPDATE gears SET active = "NO" WHERE description = ?', gear);
+}
+
 function isFirstInteraction(hubot, message) {
    return hubot.isFirstRun && hubot._isPrivateConversation(message) && message.text === hubot.name;
 }

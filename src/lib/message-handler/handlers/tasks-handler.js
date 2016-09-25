@@ -12,8 +12,6 @@ function handle(hubot, message) {
          
          if (acceptance.ok) {
             var handler = getHandler(gear, task);
-            console.log(hubot);
-            console.log(task);
             handler.handle(hubot, message, task, acceptance.params);
             return true;
          }

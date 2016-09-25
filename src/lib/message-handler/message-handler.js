@@ -3,7 +3,7 @@
 exports.callTasks = callTasks;
 
 function callTasks(message, hubot) {
-   let handlers = getHandlers():
+   let handlers = getHandlers();
 
    for (let i = 0; i < handlers.length; i++) {
       let handler = require(__base + 'src/lib/message-handler/handlers/' + handlers[i]);
@@ -21,6 +21,7 @@ function getHandlers() {
       'first-run-handler',
       'conversation-handler',
       'gear-activate-handler',
+      'gear-deactivate-handler',
       'gear-configure-handler',
       'tasks-handler'
    ];
