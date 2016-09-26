@@ -145,8 +145,8 @@ Hubot.prototype._deactivateGear = function (gear) {
    return db.run('UPDATE gears SET active = "NO" WHERE description = ?', gear);
 }
 
-Hubot.prototype._isActiveGear = function (gear) {
-   return db.get('SELECT active FROM gears WHERE description = ?', gear);
+Hubot.prototype._getGear = function (gear) {
+   return db.get('SELECT * FROM gears WHERE description = ?', gear);
 }
 
 function isFirstInteraction(hubot, message) {

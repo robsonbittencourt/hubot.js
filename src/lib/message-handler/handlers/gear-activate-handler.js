@@ -6,23 +6,30 @@ const speech = require(__base + 'src/lib/speech');
 
 function handle(hubot, message) {
    if (isGearActivateMessage(hubot, message)) {
+
+      hubot._isAdminUser(message.user)
+         .then(getGear)
+         .then(activateGear);
       
-      function activateGear(isAdmin) {
+      function getGear(isAdmin) {
          if (isAdmin) {
             var gearDescription = message.text.replace("activate ", "");
 
-            hubot._activateGear(gearDescription).then(function() {
-               let sucessMessage = speech.start('Successfully activated ').bold('gear ' + gearDescription).end()
-               hubot.postMessage(hubot.getRecipient(message), sucessMessage, {as_user: true});
-            
-            }, function() {
-               let errorMessage = speech.start('Could not activate ').bold('gear ' + gearDescription).period().append('See the detailed error in logs').end()
-               hubot.postMessage(hubot.getRecipient(message), errorMessage, {as_user: true});
-            });
+            return hubot._getGear(gearDescription);
          }         
       }
 
-      hubot._isAdminUser(message.user).then(activateGear);
+      function activateGear(gear) {
+         if (gear && 'YES' == gear.active) {
+            hubot.postMessage(hubot.getRecipient(message), 'This gear is already active.', {as_user: true});
+         } else {
+            hubot._activateGear(gear.description).then(function() {
+               hubot.postMessage(hubot.getRecipient(message), sucessMessage(gear.description), {as_user: true});
+            }, function() {
+               hubot.postMessage(hubot.getRecipient(message), errorMessage(gear.description), {as_user: true});
+            });
+         } 
+      }      
    }
 }
 
@@ -32,4 +39,12 @@ function isGearActivateMessage(hubot, message) {
     
       return message.text === configureMessage;
    }) != null;
+}
+
+function sucessMessage(gearDescription) {
+   return speech.start('Successfully activated ').bold('gear ' + gearDescription).end();
+}
+
+function errorMessage(gearDescription) {
+   return speech.start('Could not activate ').bold('gear ' + gearDescription).period().append('See the detailed error in logs').end()
 }
