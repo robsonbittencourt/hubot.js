@@ -32,6 +32,7 @@ function start(i, hubot, conversation, callback) {
 
    if (i == configs.length - 1) {
       callback(configs);
+      endConversation(conversation);
    }
 }
 
@@ -64,4 +65,8 @@ function notify(message) {
 
 function getActiveConversation(message) {
    return activeConversations.find(c => c.user === message.user);
+}
+
+function endConversation(conversation) {
+   activeConversations = activeConversations.filter(c => c.user !== conversation.user);
 }
