@@ -11,7 +11,7 @@ function handle(hubot, message) {
          configs: discoverConfig(hubot, message)
       }
 
-      conversation.startConversation(hubot, param, function(configs) {
+      conversation.startConversation(hubot, param, message, function(configs) {
          var configHandler = getConfigHandler(hubot, message);
          configHandler.handle(configs);
       });

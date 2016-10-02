@@ -21,12 +21,12 @@ function handle(hubot, message) {
 
       function deactivateGear(gear) {
          if (gear && 'NO' == gear.active) {
-            hubot.postMessage(hubot.getRecipient(message), 'This gear is already inactive.', {as_user: true});
+            hubot.talk(message, 'This gear is already inactive.');
          } else {
             hubot._deactivateGear(gear.description).then(function() {
-               hubot.postMessage(hubot.getRecipient(message), sucessMessage(gear.description), {as_user: true});
+               hubot.talk(message, sucessMessage(gear.description));
             }, function() {
-               hubot.postMessage(hubot.getRecipient(message), errorMessage(gear.description), {as_user: true});
+               hubot.talk(message, errorMessage(gear.description));
             });
          } 
       }

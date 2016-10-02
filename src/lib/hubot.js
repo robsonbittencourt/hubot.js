@@ -10,7 +10,7 @@ let Q = require('q');
 var db = new (require(__base + 'src/lib/db'));
 
 process.on('uncaughtException', function (exception) {
-  log.error(exception);
+  log.error(exception);messageDelay
 });
 
 var Hubot = function Constructor(settings) {
@@ -61,13 +61,27 @@ Hubot.prototype._firstRun = function(message) {
    db.run("INSERT INTO first_use(first_use) VALUES('NO')");
    db.run("INSERT INTO admins(admin) VALUES(?)", message.user);
    
-   this.isFirstRun = false;
-   this.postMessage(this.getRecipient(message), message1(this, message), {as_user: true});
-   this.postMessage(this.getRecipient(message), message2(this), {as_user: true});
-   this.postMessage(this.getRecipient(message), message3(this), {as_user: true});
-   this.postMessage(this.getRecipient(message), message4(this), {as_user: true});
-   this.postMessage(this.getRecipient(message), message5(this), {as_user: true});
-   this.postMessage(this.getRecipient(message), postGearsNames(this), {as_user: true});
+   let self = this;
+
+   self.isFirstRun = false;
+   let messageDelay = 3000;
+   
+   self.talk(message, message1(self, message), messageDelay)
+      .then(function() {
+         return self.talk(message, message2(self), messageDelay);
+      })
+      .then(function() {
+         return self.talk(message, message3(self), messageDelay);
+      })
+      .then(function() {
+         return self.talk(message, message4(self), messageDelay);
+      })
+      .then(function() {
+         return self.talk(message, message5(self), messageDelay);
+      })
+      .then(function() {
+         self.talk(message, postGearsNames(self), messageDelay);
+      });   
 }
 
 Hubot.prototype._loadBotUser = function () {

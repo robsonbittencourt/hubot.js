@@ -6,7 +6,6 @@ const speech = require(__base + 'src/lib/speech');
 
 function handle(hubot, message) {
    if (isGearActivateMessage(hubot, message)) {
-
       hubot._isAdminUser(message.user)
          .then(getGear)
          .then(activateGear);
@@ -21,12 +20,12 @@ function handle(hubot, message) {
 
       function activateGear(gear) {
          if (gear && 'YES' == gear.active) {
-            hubot.postMessage(hubot.getRecipient(message), 'This gear is already active.', {as_user: true});
+            hubot.talk(message, 'This gear is already active.');
          } else {
             hubot._activateGear(gear.description).then(function() {
-               hubot.postMessage(hubot.getRecipient(message), sucessMessage(gear.description), {as_user: true});
+               hubot.talk(message, sucessMessage(gear.description));
             }, function() {
-               hubot.postMessage(hubot.getRecipient(message), errorMessage(gear.description), {as_user: true});
+               hubot.talk(message, errorMessage(gear.description));
             });
          } 
       }      

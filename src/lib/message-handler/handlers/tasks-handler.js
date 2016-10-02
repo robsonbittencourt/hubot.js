@@ -16,7 +16,7 @@ function handle(hubot, message) {
                   var handler = getHandler(gear, task);
                   handler.handle(hubot, message, task, acceptance.params);
                } else {
-                  hubot.postMessage(hubot.getRecipient(message), "Sorry, this feature is disabled.", {as_user: true});
+                  hubot.talk(message, "Sorry, this feature is disabled.");
                }
                
                return true;

@@ -12,21 +12,21 @@ const myEmitter = new MyEmitter();
 
 var activeConversations = [];
 
-function startConversation(hubot, conversation, callback) {
+function startConversation(hubot, conversation, message, callback) {
    activeConversations.push(conversation);
-   start(0, hubot, conversation, callback);
+   start(0, hubot, conversation, message, callback);
 }
 
-function start(i, hubot, conversation, callback) {
+function start(i, hubot, conversation, message, callback) {
    var configs = conversation.configs;
 
    if (i < configs.length) {
-      talk(hubot, conversation.user, configs[i], i, function(answer, nextQuestion) {
+      talk(hubot, message, configs[i], i, function(answer, nextQuestion) {
          if (answer) {
             configs[i].answer = answer;   
          }
 
-         start(nextQuestion, hubot, conversation, callback);
+         start(nextQuestion, hubot, conversation, message, callback);
       })
    } 
 
@@ -36,17 +36,17 @@ function start(i, hubot, conversation, callback) {
    }
 }
 
-function talk(hubot, recipient, config, actualQuestion, callback) {
-   hubot.postMessage(recipient, config.question, {as_user: true});
+function talk(hubot, message, config, actualQuestion, callback) {
+   hubot.talk(message, config.question);
 
-   myEmitter.once(recipient, function(message) {
-      var isInvalidAnwser = config.expectedResponses && !config.expectedResponses.find(r => r === message.text); 
+   myEmitter.once(message.user, function(anwser) {
+      var isInvalidAnwser = config.expectedResponses && !config.expectedResponses.find(r => r === anwser.text); 
 
       if (isInvalidAnwser) {
-         hubot.postMessage(recipient, invalidResponseMessage(hubot, config.expectedResponses), {as_user: true});
+         hubot.talk(message, invalidResponseMessage(hubot, config.expectedResponses));
          callback(null, actualQuestion);
       } else {
-         callback(message.text, actualQuestion + 1);   
+         callback(anwser.text, actualQuestion + 1);   
       }
    });
 }
