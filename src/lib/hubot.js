@@ -155,10 +155,14 @@ Hubot.prototype._isAdminUser = function (user) {
 };
 
 Hubot.prototype._activateGear = function (gear) {
+   findGear(this, gear).active = true;
+
    return db.run('UPDATE gears SET active = "YES" WHERE description = ?', gear);
 }
 
 Hubot.prototype._deactivateGear = function (gear) {
+   findGear(this, gear).active = false;
+
    return db.run('UPDATE gears SET active = "NO" WHERE description = ?', gear);
 }
 
@@ -200,4 +204,8 @@ function postGearsNames(hubot) {
    hubot.gears.forEach(g => speech.item(g.description).line());
 
    return speech.end();
+}
+
+function findGear(hubot, gear) {
+   return hubot.gears.find(g => g.description === gear);
 }

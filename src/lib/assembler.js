@@ -56,7 +56,10 @@ module.exports = class Assembler {
    loadGearStatus(gear, self) {
       db.get('SELECT * FROM gears WHERE name = ?', gear.name).then(function(record) {
          if (!record) {
+            gear.active = false;
             db.run('INSERT INTO gears(name, description, active) VALUES(?, ?, ?)', [gear.name, gear.description, 'NO']);
+         } else {
+            gear.active = (record.active === 'YES') ? true : false;
          }
       });
    }
