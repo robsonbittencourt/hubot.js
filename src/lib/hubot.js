@@ -80,6 +80,9 @@ Hubot.prototype._firstRun = function(message) {
          return self.talk(message, message5(self), messageDelay);
       })
       .then(function() {
+         return self.talk(message, message6(self), messageDelay);
+      })
+      .then(function() {
          self.talk(message, postGearsNames(self), messageDelay);
       });   
 }
@@ -180,10 +183,14 @@ function message3(hubot) {
 }
 
 function message4(hubot) {
-   return hubot.speech().append("At this time all the gears are inactive. You can activate them and set them up after using the command ").bold("activate gear-name").end();
+   return hubot.speech().append("At this time all the gears are inactive. You can activate them using the command ").bold("activate gear-name").period().end();
 }
 
 function message5(hubot) {
+   return hubot.speech().append("Some gears have settings. To let them use the command ").bold("configure gear-name").period().end();
+}
+
+function message6(hubot) {
    return hubot.speech().append("Below is a list of gears available:").end();
 }
 
