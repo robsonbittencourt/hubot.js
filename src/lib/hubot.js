@@ -170,6 +170,18 @@ Hubot.prototype._getGear = function (gear) {
    return db.get('SELECT * FROM gears WHERE description = ?', gear);
 }
 
+Hubot.prototype.info = function (info) {
+   log.info(info);
+}
+
+Hubot.prototype.error = function (error) {
+   log.error(error);
+}
+
+Hubot.prototype.detailedError = function (error, metadata) {
+   log.detailedError(error, metadata);
+}
+
 function isFirstInteraction(hubot, message) {
    return hubot.isFirstRun && hubot._isPrivateConversation(message) && message.text === hubot.name;
 }
