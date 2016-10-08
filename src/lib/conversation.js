@@ -12,47 +12,129 @@ const myEmitter = new MyEmitter();
 
 var activeConversations = [];
 
-function startConversation(hubot, conversation, message, callback) {
+function startConversation(hubot, conversation, message) {
    activeConversations.push(conversation);
-   start(0, hubot, conversation, message, callback);
+   
+   conversation.nextInteration = 0;
+   
+   start(hubot, conversation, message);
 }
 
-function start(i, hubot, conversation, message, callback) {
-   var configs = conversation.configs;
+function start(hubot, conversation, message) {
+   var interactions = conversation.interactions;
 
-   if (i < configs.length) {
-      talk(hubot, message, configs[i], i, function(answer, nextQuestion) {
-         if (answer) {
-            configs[i].answer = answer;   
-         }
-
-         start(nextQuestion, hubot, conversation, message, callback);
-      })
+   if (conversation.nextInteration < interactions.length) {
+      speak(hubot, message, conversation, function(conversation) {
+         start(hubot, conversation, message);
+      });
    } 
 
-   if (i == configs.length - 1) {
-      callback(configs);
-      endConversation(conversation);
+   if (conversation.nextInteration == interactions.length) {
+      if (conversation.previousConversation) {
+         start(hubot, conversation.previousConversation, message);
+      } else {
+         endConversations(conversation);
+      }
    }
 }
 
-function talk(hubot, message, config, actualQuestion, callback) {
-   hubot.talk(message, config.question);
+function speak(hubot, message, conversation, callback) {
+   var interaction = conversation.interactions[conversation.nextInteration];
 
-   myEmitter.once(message.user, function(anwser) {
-      var isInvalidAnwser = config.expectedResponses && !config.expectedResponses.find(r => r === anwser.text); 
+   hubot.talk(message, interaction.speak).then(function() {
+      if(justSpeak(conversation, interaction, callback)) return;
 
-      if (isInvalidAnwser) {
-         hubot.talk(message, invalidResponseMessage(hubot, config.expectedResponses));
-         callback(null, actualQuestion);
-      } else {
-         callback(anwser.text, actualQuestion + 1);   
-      }
+      myEmitter.once(message.user, function(response) {
+         if (withoutExpectedResponse(conversation, interaction, response, callback)) return;
+
+         if (withExpectedResponse(conversation, interaction, response, hubot, message, callback)) return;
+         
+         handleResponse(conversation, interaction, response); 
+         
+         if(hasAnotherInteraction(conversation, interaction, response, hubot, message)) return; 
+                 
+         callback(conversation); 
+      });
    });
 }
 
+function justSpeak(conversation, interaction, callback) {
+   if (!interaction.expectedResponses && !interaction.handler) {
+      conversation.nextInteration++;
+      callback(conversation);
+      return true; 
+   }
+
+   return false;
+}
+
+function withoutExpectedResponse(conversation, interaction, response, callback) {
+   if (!interaction.expectedResponses) {
+      handleResponse(conversation, interaction, response);
+      callback(conversation);
+      return true;   
+   }
+
+   return false;
+}
+
+function withExpectedResponse(conversation, interaction, response, hubot, message, callback) {
+   if (!getExpectedResponse(interaction.expectedResponses, response)) {
+      hubot.talk(message, invalidResponseMessage(hubot, getExpectedResponses(interaction))).then(function() {
+         callback(conversation);
+      });
+      return true;
+   }
+
+   return false;
+}
+
+function hasAnotherInteraction(conversation, interaction, response, hubot, message) {
+   var expectedResponse = getExpectedResponse(interaction.expectedResponses, response);
+   
+   if (expectedResponse.iteration) {
+      var newConversation = {
+         user: message.user,
+         interactions: [expectedResponse.iteration],
+         gear: conversation.gear,
+         nextInteration: 0,
+         previousConversation: conversation
+      };
+      
+      start(hubot, newConversation, message);
+      return true;
+   }
+
+   return false;
+}
+
+function handleResponse(conversation, interaction, response) {
+   if (interaction.handler) {
+      var handler = require(__nodeModules + 'gear-' + conversation.gear + '/' + interaction.handler);
+      handler.handle(response.text);
+   }
+
+   conversation.nextInteration++; 
+}
+
+function getExpectedResponse(expectedResponses, response) {
+   if (expectedResponses) {
+      return expectedResponses.find(r => r.response === response.text);
+   } 
+
+   return null;
+}
+
+function getExpectedResponses(interaction) {
+   let expectedResponses = [];
+
+   interaction.expectedResponses.forEach(e => expectedResponses.push(e.response));
+
+   return expectedResponses;
+}
+
 function invalidResponseMessage(hubot, expectedResponses) {
-   return hubot.speech().append("Sorry, I didn't understand.").append("(Expected awnsers: ").bold(expectedResponses.join(", ")).append(").").end();
+   return hubot.speech().append("Sorry, I didn't understand.").append("(Expected responses: ").bold(expectedResponses.join(", ")).append(").").end();
 }
 
 function hasActiveConversation(message) {
@@ -67,6 +149,6 @@ function getActiveConversation(message) {
    return activeConversations.find(c => c.user === message.user);
 }
 
-function endConversation(conversation) {
+function endConversations(conversation) {
    activeConversations = activeConversations.filter(c => c.user !== conversation.user);
 }

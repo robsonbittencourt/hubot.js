@@ -8,13 +8,11 @@ function handle(hubot, message) {
    if (isGearConfigureMessage(hubot, message)) {
       var param = {
          user: message.user,
-         configs: discoverConfig(hubot, message)
+         gear: gearDescription(message),
+         interactions: discoverConfig(hubot, message)
       }
 
-      conversation.startConversation(hubot, param, message, function(configs) {
-         var configHandler = getConfigHandler(hubot, message);
-         configHandler.handle(configs);
-      });
+      conversation.startConversation(hubot, param, message);
    }
 }
 
@@ -27,13 +25,13 @@ function isGearConfigureMessage(hubot, message) {
 }
 
 function discoverConfig(hubot, message) {
-   var gearDescription = message.text.replace("configure ", "");
-   
-   return hubot.gears.find(g => g.description === gearDescription).configs;
+   return hubot.gears.find(g => g.description === gearDescription(message)).configs;
 }
 
 function getConfigHandler(hubot, message) {
-   var gearDescription = message.text.replace("configure ", "");
+   return hubot.gears.find(g => g.description === gearDescription(message)).configHandler;
+}
 
-   return hubot.gears.find(g => g.description === gearDescription).configHandler;
+function gearDescription(message) {
+   return message.text.replace("configure ", "");
 }
