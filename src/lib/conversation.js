@@ -4,6 +4,8 @@ exports.startConversation = startConversation;
 exports.hasActiveConversation = hasActiveConversation;
 exports.notify = notify;
 
+let Q = require('q');
+
 const EventEmitter = require('events');
 
 class MyEmitter extends EventEmitter {}
@@ -45,15 +47,25 @@ function speak(hubot, message, conversation, callback) {
       if(justSpeak(conversation, interaction, callback)) return;
 
       myEmitter.once(message.user, function(response) {
-         if (withoutExpectedResponse(conversation, interaction, response, callback)) return;
+         if (withoutExpectedResponse(conversation, interaction, response, hubot, message, callback)) return;
 
          if (withExpectedResponse(conversation, interaction, response, hubot, message, callback)) return;
          
-         handleResponse(conversation, interaction, response); 
-         
-         if(hasAnotherInteraction(conversation, interaction, response, hubot, message)) return; 
-                 
-         callback(conversation); 
+         Q(handleResponse(conversation, interaction, response)).then(function(text) {
+            conversation.nextInteration++;
+
+            if(text) {
+               hubot.talk(message, text).then(function() {
+                  if(hasAnotherInteraction(conversation, interaction, response, hubot, message)) return; 
+                  callback(conversation);
+               });
+            } else {
+               if(hasAnotherInteraction(conversation, interaction, response, hubot, message)) return; 
+               callback(conversation);
+            }
+         }, function(text) {
+            speakReturnedText(hubot, message, conversation, text, callback);
+         });         
       });
    });
 }
@@ -68,14 +80,28 @@ function justSpeak(conversation, interaction, callback) {
    return false;
 }
 
-function withoutExpectedResponse(conversation, interaction, response, callback) {
+function withoutExpectedResponse(conversation, interaction, response, hubot, message, callback) {
    if (!interaction.expectedResponses) {
-      handleResponse(conversation, interaction, response);
-      callback(conversation);
+      Q(handleResponse(conversation, interaction, response)).then(function(text) {
+         conversation.nextInteration++;
+         speakReturnedText(hubot, message, conversation, text, callback);    
+      }, function(text) {
+         speakReturnedText(hubot, message, conversation, text, callback);
+      });
       return true;   
    }
 
    return false;
+}
+
+function speakReturnedText(hubot, message, conversation, text, callback) {
+   if(text) {
+      hubot.talk(message, text).then(function() {
+         callback(conversation);
+      });
+   } else {
+      callback(conversation);
+   }  
 }
 
 function withExpectedResponse(conversation, interaction, response, hubot, message, callback) {
@@ -111,10 +137,8 @@ function hasAnotherInteraction(conversation, interaction, response, hubot, messa
 function handleResponse(conversation, interaction, response) {
    if (interaction.handler) {
       var handler = require(__nodeModules + 'gear-' + conversation.gear + '/' + interaction.handler);
-      handler.handle(response.text);
-   }
-
-   conversation.nextInteration++; 
+      return handler.handle(response.text);
+   }    
 }
 
 function getExpectedResponse(expectedResponses, response) {
