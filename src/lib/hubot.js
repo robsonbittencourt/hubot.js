@@ -10,7 +10,7 @@ let Q = require('q');
 var db = new (require(__base + 'src/lib/db'));
 
 process.on('uncaughtException', function (exception) {
-  log.error(exception);messageDelay
+  log.error(exception);
 });
 
 var Hubot = function Constructor(settings) {
