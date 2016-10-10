@@ -6,7 +6,7 @@ function callTasks(message, hubot) {
    let handlers = getHandlers();
 
    for (let i = 0; i < handlers.length; i++) {
-      let handler = require(__base + 'src/lib/message-handler/handlers/' + handlers[i]);
+      let handler = require(__base + 'src/message-handler/handlers/' + handlers[i]);
       
       let isHandled = handler.handle(hubot, message);
       

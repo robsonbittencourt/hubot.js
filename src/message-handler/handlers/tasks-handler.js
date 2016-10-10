@@ -2,7 +2,7 @@
 
 exports.handle = handle;
 
-var trigger = require(__base + 'src/lib/trigger');
+var trigger = require(__base + 'src/message-handler/trigger');
 
 function handle(hubot, message) {
    hubot.gears.forEach(function(gear) {

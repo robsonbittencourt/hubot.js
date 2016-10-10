@@ -1,6 +1,6 @@
 var expect  = require('chai').expect;
 var setup  = require('../setup').start();
-var Assembler = require('../../src/lib/assembler');
+var Assembler = require('../../src/assembler');
 
 describe('The Hubot Assembler', function() {
    

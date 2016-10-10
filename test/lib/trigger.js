@@ -1,5 +1,5 @@
 var expect  = require('chai').expect;
-var trigger = require('../../src/lib/trigger');
+var trigger = require('../../src/message-handler/trigger');
 
 describe('Task Trigger', function() {
    describe('Task Trigger without parameters', function() {

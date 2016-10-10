@@ -2,7 +2,7 @@
 
 exports.handle = handle;
 
-const speech = require(__base + 'src/lib/speech');
+const speech = require(__base + 'src/speech');
 
 function handle(hubot, message) {
    if (isGearActivateMessage(hubot, message)) {

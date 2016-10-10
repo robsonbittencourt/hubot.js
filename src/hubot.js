@@ -3,11 +3,11 @@
 var util = require('util');
 var Bot = require('slackbots');
 var log = require(__base + 'src/lib/log');
-var Assembler = require(__base + 'src/lib/assembler');
-var messageHandler = require(__base + 'src/lib/message-handler/message-handler');
-var speech = require(__base + 'src/lib/speech');
-let Q = require('q');
+var Assembler = require(__base + 'src/assembler');
+var messageHandler = require(__base + 'src/message-handler/message-handler');
+var speech = require(__base + 'src/speech');
 var db = new (require(__base + 'src/lib/db'));
+let Q = require('q');
 
 process.on('uncaughtException', function (exception) {
   log.error(exception);
