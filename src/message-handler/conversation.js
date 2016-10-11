@@ -43,7 +43,7 @@ function start(hubot, conversation, message) {
 function speak(hubot, message, conversation, callback) {
    var interaction = conversation.interactions[conversation.nextInteration];
 
-   hubot.talk(message, interaction.speak).then(function() {
+   hubot.speak(message, interaction.speak).then(function() {
       if(justSpeak(conversation, interaction, callback)) return;
 
       myEmitter.once(message.user, function(response) {
@@ -55,7 +55,7 @@ function speak(hubot, message, conversation, callback) {
             conversation.nextInteration++;
 
             if(text) {
-               hubot.talk(message, text).then(function() {
+               hubot.speak(message, text).then(function() {
                   if(hasAnotherInteraction(conversation, interaction, response, hubot, message)) return; 
                   callback(conversation);
                });
@@ -96,7 +96,7 @@ function withoutExpectedResponse(conversation, interaction, response, hubot, mes
 
 function speakReturnedText(hubot, message, conversation, text, callback) {
    if(text) {
-      hubot.talk(message, text).then(function() {
+      hubot.speak(message, text).then(function() {
          callback(conversation);
       });
    } else {
@@ -106,7 +106,7 @@ function speakReturnedText(hubot, message, conversation, text, callback) {
 
 function withExpectedResponse(conversation, interaction, response, hubot, message, callback) {
    if (!getExpectedResponse(interaction.expectedResponses, response)) {
-      hubot.talk(message, invalidResponseMessage(hubot, getExpectedResponses(interaction))).then(function() {
+      hubot.speak(message, invalidResponseMessage(hubot, getExpectedResponses(interaction))).then(function() {
          callback(conversation);
       });
       return true;

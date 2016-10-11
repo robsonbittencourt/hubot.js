@@ -20,12 +20,12 @@ function handle(hubot, message) {
 
       function activateGear(gear) {
          if (gear && 'YES' == gear.active) {
-            hubot.talk(message, 'This gear is already active.');
+            hubot.speak(message, 'This gear is already active.');
          } else {
             hubot._activateGear(gear.description).then(function() {
-               hubot.talk(message, sucessMessage(gear.description));
+               hubot.speak(message, sucessMessage(gear.description));
             }, function() {
-               hubot.talk(message, errorMessage(gear.description));
+               hubot.speak(message, errorMessage(gear.description));
             });
          } 
       }      

@@ -11,17 +11,14 @@ function handle(hubot, message) {
          var acceptance = trigger.check(message.text, task.trigger);
          
          if (acceptance.ok) {
-            hubot._getGear(gear.description).then(function(result) {
-               if (result && 'YES' == result.active) {
-                  var handler = getHandler(gear, task);
-                  handler.handle(hubot, message, task, acceptance.params);
-               } else {
-                  hubot.talk(message, "Sorry, this feature is disabled.");
-               }
-               
-               return true;
-            });  
+            if (gear.active) {
+               var handler = getHandler(gear, task);
+               handler.handle(hubot, message, task, acceptance.params);
+            } else {
+               hubot.speak(message, "Sorry, this feature is disabled.");
+            }
             
+            return true;
          }
 
       }); 
