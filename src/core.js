@@ -6,7 +6,7 @@ var log = require(__base + 'src/lib/log');
 var Assembler = require(__base + 'src/assembler');
 var messageHandler = require(__base + 'src/message-handler/message-handler');
 var speech = require(__base + 'src/speech');
-var Chip = require(__base + 'src/hubot');
+var Hubot = require(__base + 'src/hubot');
 var db = new (require(__base + 'src/lib/db'));
 let Q = require('q');
 
@@ -14,33 +14,32 @@ process.on('uncaughtException', function (exception) {
   log.error(exception);
 });
 
-var Hubot = function Constructor(settings) {
+var Core = function Constructor(settings) {
    this.settings = settings;
    this.name = this.settings.name;
    this.user = null;
    this.isFirstRun = false;
 };
 
-util.inherits(Hubot, Bot);
+util.inherits(Core, Bot);
 
-module.exports = Hubot;
+module.exports = Core;
 
-Hubot.prototype.run = function () {
-   Hubot.super_.call(this, this.settings);
+Core.prototype.run = function () {
+   Core.super_.call(this, this.settings);
 
    this.on('start', this._onStart);
    this.on('message', this._onMessage);
 };
 
-Hubot.prototype._onStart = function () {
+Core.prototype._onStart = function () {
    this._loadBotUser();
-   this.chip = new Chip(this);
-   this.chip.gears = new Assembler().build();
+   this.hubot = new Hubot(this);
+   this.hubot.gears = new Assembler().build();
    this._firstRunChecker();
-   
 };
 
-Hubot.prototype._firstRunChecker = function () {
+Core.prototype._firstRunChecker = function () {
    let self = this;
 
    db.get('SELECT * FROM first_use').then(function(record) {
@@ -50,79 +49,76 @@ Hubot.prototype._firstRunChecker = function () {
    });
 };
 
-Hubot.prototype._onMessage = function (message) {
+Core.prototype._onMessage = function (message) {
    if (this._isChatMessage(message) && !this._isFromHubot(message)) {
       if (isFirstInteraction(this, message)) {
          this._firstRun(message);
       } else {
-         messageHandler.callTasks(message, this.chip);
+         messageHandler.callTasks(message, this);
       }  
    }
 };
 
-Hubot.prototype._firstRun = function(message) {
+Core.prototype._firstRun = function(message) {
    db.run("INSERT INTO first_use(first_use) VALUES('NO')");
    db.run("INSERT INTO admins(admin) VALUES(?)", message.user);
    
    let self = this;
+   let hubot = self.hubot;
 
    self.isFirstRun = false;
    let messageDelay = 3000;
    
-   self.speak(message, message1(self, message), messageDelay)
+   hubot.speak(message, message1(hubot, self, message), messageDelay)
       .then(function() {
-         return self.speak(message, message2(self), messageDelay);
+         return hubot.speak(message, message2(self), messageDelay);
       })
       .then(function() {
-         return self.speak(message, message3(self), messageDelay);
+         return hubot.speak(message, message3(self), messageDelay);
       })
       .then(function() {
-         return self.speak(message, message4(self), messageDelay);
+         return hubot.speak(message, message4(self), messageDelay);
       })
       .then(function() {
-         return self.speak(message, message5(self), messageDelay);
+         return hubot.speak(message, message5(self), messageDelay);
       })
       .then(function() {
-         return self.speak(message, message6(self), messageDelay);
+         return hubot.speak(message, message6(self), messageDelay);
       })
       .then(function() {
-         self.speak(message, postGearsNames(self), messageDelay);
+         hubot.speak(message, postGearsNames(hubot), messageDelay);
       });   
 }
 
-Hubot.prototype._loadBotUser = function () {
+Core.prototype._loadBotUser = function () {
    this.user = this._getUserByName(this.name);
 };
 
-Hubot.prototype._getUserByName = function (name) {
+Core.prototype._getUserByName = function (name) {
    return this.users.find(user => user.name === name);
 };
 
-Hubot.prototype._getUserById = function (userId) {
+Core.prototype._getUserById = function (userId) {
    return this.users.find(user => user.id === userId);
 };
 
-Hubot.prototype._isChatMessage = function (message) {
+Core.prototype._isChatMessage = function (message) {
    return message.type === 'message' && Boolean(message.text);
 };
 
-Hubot.prototype._isChannelConversation = function (message) {
+Core.prototype._isChannelConversation = function (message) {
    return typeof message.channel === 'string' && message.channel[0] === 'C';
 };
 
-Hubot.prototype._isPrivateConversation = function (message) {
+Core.prototype._isPrivateConversation = function (message) {
    return typeof message.channel === 'string' && message.channel[0] === 'D';
 };
 
-Hubot.prototype._isFromHubot = function (message) {
+Core.prototype._isFromHubot = function (message) {
    return message.user === this.user.id;
 };
 
-Hubot.prototype.speech = function (message) {
-   return speech.start(message);
-}
-
-Hubot.prototype.getRecipient = function (message) {
+Core.prototype.getRecipient = function (message) {
    if (this._isPrivateConversation(message)) {
       return message.user;
    } else {
@@ -130,67 +126,32 @@ Hubot.prototype.getRecipient = function (message) {
    }
 }
 
-Hubot.prototype.speakTo = function (recipient, text, message, delay = 1000) {
-   let deferred = Q.defer();
-   let channel = message ? message.channel : recipient;
-
-   this.ws.send(JSON.stringify({ type: 'typing', channel: channel }));
-   
-   setTimeout(() => {
-      
-      this.postMessage(recipient, text, {as_user: true}).then(function() {
-         deferred.resolve();
-      }, function() {
-         deferred.reject();
-      });
-
-   }, delay);
-
-   return deferred.promise;
-}
-
-Hubot.prototype.speak = function (message, text, delay) {
-   return this.speakTo(this.getRecipient(message), text, message, delay);
-}
-
-Hubot.prototype._isAdminUser = function (user) {
+Core.prototype._isAdminUser = function (user) {
    return db.get('SELECT * FROM admins WHERE admin = ?', user);
 };
 
-Hubot.prototype._activateGear = function (gear) {
-   findGear(this, gear).active = true;
+Core.prototype._activateGear = function (gear) {
+   findGear(this.hubot, gear).active = true;
 
    return db.run('UPDATE gears SET active = "YES" WHERE description = ?', gear);
 }
 
-Hubot.prototype._deactivateGear = function (gear) {
-   findGear(this, gear).active = false;
+Core.prototype._deactivateGear = function (gear) {
+   findGear(this.hubot, gear).active = false;
 
    return db.run('UPDATE gears SET active = "NO" WHERE description = ?', gear);
 }
 
-Hubot.prototype._getGear = function (gear) {
+Core.prototype._getGear = function (gear) {
    return db.get('SELECT * FROM gears WHERE description = ?', gear);
 }
 
-Hubot.prototype.info = function (info) {
-   log.info(info);
+function isFirstInteraction(core, message) {
+   return core.isFirstRun && core._isPrivateConversation(message) && message.text === core.name;
 }
 
-Hubot.prototype.error = function (error) {
-   log.error(error);
-}
-
-Hubot.prototype.detailedError = function (error, metadata) {
-   log.detailedError(error, metadata);
-}
-
-function isFirstInteraction(hubot, message) {
-   return hubot.isFirstRun && hubot._isPrivateConversation(message) && message.text === hubot.name;
-}
-
-function message1(hubot, message) {
-   return hubot.speech().hello(hubot._getUserById(message.user)).append("My name is ").append(hubot.name).append(" and from now on I will help you with some tasks using the Slack.").end();
+function message1(hubot, core, message) {
+   return hubot.speech().hello(core._getUserById(message.user)).append("My name is ").append(core.name).append(" and from now on I will help you with some tasks using the Slack.").end();
 }
 
 function message2(hubot) {

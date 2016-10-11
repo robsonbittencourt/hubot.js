@@ -4,10 +4,10 @@ exports.handle = handle;
 
 const speech = require(__base + 'src/speech');
 
-function handle(hubot, message) {
+function handle(hubot, message, core) {
    if (isGearDeactivateMessage(hubot, message)) {
 
-      hubot._isAdminUser(message.user)
+      core._isAdminUser(message.user)
          .then(getGear)
          .then(deactivateGear);
 
@@ -15,7 +15,7 @@ function handle(hubot, message) {
          if (isAdmin) {
             var gearDescription = message.text.replace("deactivate ", "");
 
-            return hubot._getGear(gearDescription);
+            return core._getGear(gearDescription);
          }         
       }
 
@@ -23,7 +23,7 @@ function handle(hubot, message) {
          if (gear && 'NO' == gear.active) {
             hubot.speak(message, 'This gear is already inactive.');
          } else {
-            hubot._deactivateGear(gear.description).then(function() {
+            core._deactivateGear(gear.description).then(function() {
                hubot.speak(message, sucessMessage(gear.description));
             }, function() {
                hubot.speak(message, errorMessage(gear.description));

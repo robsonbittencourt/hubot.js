@@ -2,8 +2,8 @@
 
 exports.handle = handle;
 
-function handle(hubot, message) {
-   if (hubot.isFirstRun) {
+function handle(hubot, message, core) {
+   if (core.isFirstRun) {
       return true;
    } 
 

@@ -4,7 +4,7 @@ let Q = require('q');
 var log = require(__base + 'src/lib/log');
 var speech = require(__base + 'src/speech');
 
-module.exports = class Chip {
+module.exports = class Hubot {
    
    constructor(core) {
       this.gears = [];
@@ -47,19 +47,19 @@ module.exports = class Chip {
    }
 
    isFromChannel(message) {
-      return typeof message.channel === 'string' && message.channel[0] === 'C';
+      return this.core._isChannelConversation(message);
    }
 
    isFromPrivate(message) {
-      return typeof message.channel === 'string' && message.channel[0] === 'D';
+      return this.core._isPrivateConversation(message);
+   }
+
+   getUser(message) {
+      return this.core._getUserById(message.user);
    }
 
    getRecipient(message) {
-      if (this.isFromPrivate(message)) {
-         return message.user;
-      } else {
-         return message.channel;
-      }
+      return this.core.getRecipient(message);
    }
 
    speech(message) {
