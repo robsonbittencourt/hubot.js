@@ -1,4 +1,5 @@
 'use strict';
+
 exports.info = info;
 exports.error = error;
 exports.detailedError = detailedError;

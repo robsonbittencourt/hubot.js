@@ -9,14 +9,14 @@ var firstRun = require(__base + 'src/first-run');
 var Hubot = require(__base + 'src/hubot');
 var db = require(__base + 'src/lib/db');
 
-process.on('uncaughtException', function (exception) {
-  log.error(exception);
-});
-
 var botName;
 var botUser;
 var coreSettings;
 var isFirstRun = false;
+
+process.on('uncaughtException', function (exception) {
+  log.error(exception);
+});
 
 var Core = function Constructor(settings) {
    coreSettings = settings;
@@ -24,7 +24,6 @@ var Core = function Constructor(settings) {
 };
 
 util.inherits(Core, Bot);
-
 module.exports = Core;
 
 Core.prototype.run = function () {
@@ -41,16 +40,8 @@ Core.prototype.onStart = function () {
    this.firstRunChecker();
 };
 
-Core.prototype.firstRunChecker = function () {
-   db.getDb().get('SELECT * FROM first_use').then(function(record) {
-      if (!record || !record.first_use) {
-         isFirstRun = true;
-      } 
-   });
-};
-
 Core.prototype.onMessage = function (message) {
-    if (isChatMessage(message) && !isFromHubot(message, this)) {
+    if (isChatMessage(message) && !isFromHubot(message)) {
       if (isFirstInteraction(this, message)) {
          isFirstRun = false;
          firstRun.firstRun(this, message);
@@ -58,6 +49,14 @@ Core.prototype.onMessage = function (message) {
          messageHandler.callTasks(message, this);
       }  
    }
+};
+
+Core.prototype.firstRunChecker = function () {
+   db.getDb().get('SELECT * FROM first_use').then(function(record) {
+      if (!record || !record.first_use) {
+         isFirstRun = true;
+      } 
+   });
 };
 
 Core.prototype.getUserByName = function (name) {
@@ -88,7 +87,7 @@ Core.prototype.isAdminUser = function (user) {
    return db.getDb().get('SELECT * FROM admins WHERE admin = ?', user);
 };
 
-function isFromHubot(message, core) {
+function isFromHubot(message) {
    return message.user === botUser.id;
 };
 
