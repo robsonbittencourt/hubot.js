@@ -5,11 +5,9 @@ var Bot = require('slackbots');
 var log = require(__base + 'src/lib/log');
 var Assembler = require(__base + 'src/assembler');
 var messageHandler = require(__base + 'src/message-handler/message-handler');
-var speech = require(__base + 'src/speech');
 var firstRun = require(__base + 'src/first-run');
 var Hubot = require(__base + 'src/hubot');
 var db = new (require(__base + 'src/lib/db'));
-let Q = require('q');
 
 process.on('uncaughtException', function (exception) {
   log.error(exception);
@@ -61,10 +59,6 @@ Core.prototype._onMessage = function (message) {
    }
 };
 
-Core.prototype._loadBotUser = function () {
-   this.user = this._getUserByName(this.name);
-};
-
 Core.prototype._getUserByName = function (name) {
    return this.users.find(user => user.name === name);
 };
@@ -92,10 +86,6 @@ Core.prototype.getRecipient = function (message) {
 Core.prototype._isAdminUser = function (user) {
    return db.get('SELECT * FROM admins WHERE admin = ?', user);
 };
-
-Core.prototype._getGear = function (gear) {
-   return db.get('SELECT * FROM gears WHERE description = ?', gear);
-}
 
 function loadBotUser(core) {
    core.user = core._getUserByName(core.name);
