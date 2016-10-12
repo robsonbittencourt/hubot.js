@@ -22,6 +22,6 @@ function getHandlers() {
       'conversation-handler',
       'gear-status-handler',
       'gear-configure-handler',
-      'tasks-handler'
+      'gears-tasks-handler'
    ];
 }

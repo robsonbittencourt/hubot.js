@@ -2,9 +2,10 @@
 
 exports.handle = handle;
 
+var Hubot = require(__base + 'src/hubot');
 var trigger = require(__base + 'src/message-handler/trigger');
 
-function handle(hubot, message) {
+function handle(hubot, message, core) {
    hubot.gears.forEach(function(gear) {
       gear.tasks.forEach(function(task) {
 
@@ -12,8 +13,9 @@ function handle(hubot, message) {
          
          if (acceptance.ok) {
             if (gear.active) {
+               var hubotClone = getHubotClone(core);
                var handler = getHandler(gear, task);
-               handler.handle(hubot, message, task, acceptance.params);
+               handler.handle(hubotClone, message, task, acceptance.params);
             } else {
                hubot.speak(message, "Sorry, this feature is disabled.");
             }
@@ -25,6 +27,13 @@ function handle(hubot, message) {
    });
 
    return false;
+}
+
+function getHubotClone(core) {
+   var hubotClone = new Hubot(core);
+   hubotClone.gears = JSON.parse(JSON.stringify(core.hubot.gears));
+   
+   return hubotClone;
 }
 
 function getHandler(gear, task) {
