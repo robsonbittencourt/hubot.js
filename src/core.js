@@ -7,17 +7,20 @@ var Assembler = require(__base + 'src/assembler');
 var messageHandler = require(__base + 'src/message-handler/message-handler');
 var firstRun = require(__base + 'src/first-run');
 var Hubot = require(__base + 'src/hubot');
-var db = require(__base + 'src/lib/db').getDb();
+var db = require(__base + 'src/lib/db');
 
 process.on('uncaughtException', function (exception) {
   log.error(exception);
 });
 
+var botName;
+var botUser;
+var coreSettings;
+var isFirstRun = false;
+
 var Core = function Constructor(settings) {
-   this.settings = settings;
-   this.name = this.settings.name;
-   this.user = null;
-   this.isFirstRun = false;
+   coreSettings = settings;
+   botName = settings.name;
 };
 
 util.inherits(Core, Bot);
@@ -25,33 +28,31 @@ util.inherits(Core, Bot);
 module.exports = Core;
 
 Core.prototype.run = function () {
-   Core.super_.call(this, this.settings);
+   Core.super_.call(this, coreSettings);
 
-   this.on('start', this._onStart);
-   this.on('message', this._onMessage);
+   this.on('start', this.onStart);
+   this.on('message', this.onMessage);
 };
 
-Core.prototype._onStart = function () {
-   loadBotUser(this);
+Core.prototype.onStart = function () {
+   botUser = this.getUserByName(botName);
    this.hubot = new Hubot(this);
    this.hubot.gears = new Assembler().build();
-   this._firstRunChecker();
+   this.firstRunChecker();
 };
 
-Core.prototype._firstRunChecker = function () {
-   let self = this;
-
-   db.get('SELECT * FROM first_use').then(function(record) {
+Core.prototype.firstRunChecker = function () {
+   db.getDb().get('SELECT * FROM first_use').then(function(record) {
       if (!record || !record.first_use) {
-         self.isFirstRun = true;
+         isFirstRun = true;
       } 
    });
 };
 
-Core.prototype._onMessage = function (message) {
+Core.prototype.onMessage = function (message) {
     if (isChatMessage(message) && !isFromHubot(message, this)) {
       if (isFirstInteraction(this, message)) {
-         this.isFirstRun = false;
+         isFirstRun = false;
          firstRun.firstRun(this, message);
       } else {
          messageHandler.callTasks(message, this);
@@ -59,40 +60,36 @@ Core.prototype._onMessage = function (message) {
    }
 };
 
-Core.prototype._getUserByName = function (name) {
+Core.prototype.getUserByName = function (name) {
    return this.users.find(user => user.name === name);
 };
 
-Core.prototype._getUserById = function (userId) {
+Core.prototype.getUserById = function (userId) {
    return this.users.find(user => user.id === userId);
 };
 
-Core.prototype._isChannelConversation = function (message) {
+Core.prototype.isChannelConversation = function (message) {
    return typeof message.channel === 'string' && message.channel[0] === 'C';
 };
 
-Core.prototype._isPrivateConversation = function (message) {
+Core.prototype.isPrivateConversation = function (message) {
    return typeof message.channel === 'string' && message.channel[0] === 'D';
 };
 
 Core.prototype.getRecipient = function (message) {
-   if (this._isPrivateConversation(message)) {
+   if (this.isPrivateConversation(message)) {
       return message.user;
    } else {
       return message.channel;
    }
 }
 
-Core.prototype._isAdminUser = function (user) {
-   return db.get('SELECT * FROM admins WHERE admin = ?', user);
-};
-
-function loadBotUser(core) {
-   core.user = core._getUserByName(core.name);
+Core.prototype.isAdminUser = function (user) {
+   return db.getDb().get('SELECT * FROM admins WHERE admin = ?', user);
 };
 
 function isFromHubot(message, core) {
-   return message.user === core.user.id;
+   return message.user === botUser.id;
 };
 
 function isChatMessage(message) {
@@ -100,5 +97,5 @@ function isChatMessage(message) {
 };
 
 function isFirstInteraction(core, message) {
-   return core.isFirstRun && core._isPrivateConversation(message) && message.text === core.name;
+   return isFirstRun && core.isPrivateConversation(message) && message.text === botName;
 }

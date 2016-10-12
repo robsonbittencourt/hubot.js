@@ -48,15 +48,15 @@ module.exports = class Hubot {
    }
 
    isFromChannel(message) {
-      return _core._isChannelConversation(message);
+      return _core.isChannelConversation(message);
    }
 
    isFromPrivate(message) {
-      return _core._isPrivateConversation(message);
+      return _core.isPrivateConversation(message);
    }
 
    getUser(message) {
-      return _core._getUserById(message.user);
+      return _core.getUserById(message.user);
    }
 
    getRecipient(message) {

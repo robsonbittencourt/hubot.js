@@ -2,12 +2,12 @@
 
 exports.firstRun = firstRun;
 
-var db = require(__base + 'src/lib/db').getDb();
+var db = require(__base + 'src/lib/db');
 
 function firstRun(core, message) {
-   db.run("INSERT INTO first_use(first_use) VALUES('NO')");
-   db.run("INSERT INTO admins(admin) VALUES(?)", message.user);
-   
+   db.getDb().run("INSERT INTO first_use(first_use) VALUES('NO')");
+   db.getDb().run("INSERT INTO admins(admin) VALUES(?)", message.user);
+
    let hubot = core.hubot;
    let messageDelay = 3000;
    
@@ -33,7 +33,7 @@ function firstRun(core, message) {
 }
 
 function message1(hubot, core, message) {
-   return hubot.speech().hello(core._getUserById(message.user)).append("My name is ").append(core.name).append(" and from now on I will help you with some tasks using the Slack.").end();
+   return hubot.speech().hello(core.getUserById(message.user)).append("My name is ").append(core.name).append(" and from now on I will help you with some tasks using the Slack.").end();
 }
 
 function message2(hubot) {

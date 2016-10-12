@@ -3,13 +3,13 @@
 exports.handle = handle;
 
 const speech = require(__base + 'src/speech');
-var db = require(__base + 'src/lib/db').getDb();
+var db = require(__base + 'src/lib/db');
 
 function handle(hubot, message, core) {
    var action = getAction(message);
 
    if (action && isGearChangeStatusMessage(action, hubot, message)) {
-      core._isAdminUser(message.user).then(changeStatus);          
+      core.isAdminUser(message.user).then(changeStatus);          
    } else {
       return false;
    }
@@ -36,7 +36,7 @@ function handle(hubot, message, core) {
 function changeGearStatus(action, hubot, gear) {
    hubot.findGear(gear).active = action.status;
    
-   return db.run('UPDATE gears SET active = ? WHERE description = ?', action.status, gear);
+   return db.getDb().run('UPDATE gears SET active = ? WHERE description = ?', action.status, gear); 
 }
 
 function isGearChangeStatusMessage(action, hubot, message) {

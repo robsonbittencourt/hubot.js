@@ -3,9 +3,12 @@
 let db = require('sqlite');
 let path = require('path');
 
+exports.startDb = startDb;
 exports.getDb = getDb;
 
-function getDb() {
+var database;
+
+function startDb() {
    let dbFile = path.resolve(process.cwd(), 'data', 'hubot.db');
    let migrations = path.resolve(process.cwd(), 'migrations');
 
@@ -14,14 +17,18 @@ function getDb() {
    }
 
    function migrate(db) {
-      return db.migrate({migrationsPath: migrations});
+      db.migrate({migrationsPath: migrations}).then(function(result) {
+         database = result;
+      });
    }
    
-   open(dbFile)
+   return open(dbFile)
       .then(migrate)
       .catch(function() {
          //do nothing
-      }) 
+      }); 
+}
 
-   return db; 
+function getDb() {
+   return database;
 }
