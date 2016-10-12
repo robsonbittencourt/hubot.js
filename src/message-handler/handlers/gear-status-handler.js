@@ -36,7 +36,7 @@ function handle(hubot, message, core) {
 function changeGearStatus(action, hubot, gear) {
    hubot.findGear(gear).active = action.status;
    
-   return db.run('UPDATE gears SET active = ? WHERE description = ?', action.status, gear);
+   return db.run('UPDATE gears SET active = ? WHERE description = ?', [action.status, gear]);
 }
 
 function isGearChangeStatusMessage(action, hubot, message) {

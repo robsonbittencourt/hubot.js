@@ -59,7 +59,7 @@ module.exports = class Assembler {
             gear.active = false;
             db.run('INSERT INTO gears(name, description, active) VALUES(?, ?, ?)', [gear.name, gear.description, false]);
          } else {
-            gear.active = (record.active === 1);
+            gear.active = record.active === "1";
          }
       });
    }
