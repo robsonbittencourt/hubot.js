@@ -2,7 +2,7 @@
 
 exports.firstRun = firstRun;
 
-var db = new (require(__base + 'src/lib/db'));
+var db = require(__base + 'src/lib/db').getDb();
 
 function firstRun(core, message) {
    db.run("INSERT INTO first_use(first_use) VALUES('NO')");

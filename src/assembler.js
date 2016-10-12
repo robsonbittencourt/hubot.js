@@ -3,7 +3,7 @@
 var fs = require('fs');
 var log = require(__base + 'src/lib/log');
 var speech = require(__base + 'src/speech');
-var db = new (require(__base + 'src/lib/db'));
+var db = require(__base + 'src/lib/db').getDb();
 
 const gearNamePrefix = 'gear-';
 
@@ -61,6 +61,8 @@ module.exports = class Assembler {
          } else {
             gear.active = record.active === "1";
          }
+      }, function (err) {
+         console.log('ed');
       });
    }
 

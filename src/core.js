@@ -7,7 +7,7 @@ var Assembler = require(__base + 'src/assembler');
 var messageHandler = require(__base + 'src/message-handler/message-handler');
 var firstRun = require(__base + 'src/first-run');
 var Hubot = require(__base + 'src/hubot');
-var db = new (require(__base + 'src/lib/db'));
+var db = require(__base + 'src/lib/db').getDb();
 
 process.on('uncaughtException', function (exception) {
   log.error(exception);

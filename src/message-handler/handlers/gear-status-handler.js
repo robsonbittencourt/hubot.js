@@ -3,7 +3,7 @@
 exports.handle = handle;
 
 const speech = require(__base + 'src/speech');
-var db = new (require(__base + 'src/lib/db'));
+var db = require(__base + 'src/lib/db').getDb();
 
 function handle(hubot, message, core) {
    var action = getAction(message);
@@ -36,7 +36,7 @@ function handle(hubot, message, core) {
 function changeGearStatus(action, hubot, gear) {
    hubot.findGear(gear).active = action.status;
    
-   return db.run('UPDATE gears SET active = ? WHERE description = ?', [action.status, gear]);
+   return db.run('UPDATE gears SET active = ? WHERE description = ?', action.status, gear);
 }
 
 function isGearChangeStatusMessage(action, hubot, message) {
