@@ -65,6 +65,10 @@ module.exports = class Hubot {
    speech(message) {
       return speech.start(message);
    }
+
+   findGear(gear) {
+      return this.gears.find(g => g.description === gear);
+   }
    
 }
 

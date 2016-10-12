@@ -20,8 +20,7 @@ function getHandlers() {
    return [
       'first-run-handler',
       'conversation-handler',
-      'gear-activate-handler',
-      'gear-deactivate-handler',
+      'gear-status-handler',
       'gear-configure-handler',
       'tasks-handler'
    ];
