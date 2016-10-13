@@ -1,3 +1,5 @@
+'use strict';
+
 const expect  = require('chai').expect;
 const setup  = require('../setup').start();
 const Assembler = require('../../src/assembler');
