@@ -1,12 +1,12 @@
 'use strict';
 
-exports.handle = handle;
-
 const conversation = require(__base + 'src/message-handler/conversation');
+
+exports.handle = handle;
 
 function handle(hubot, message) {
    if (isGearConfigureMessage(hubot, message)) {
-      var param = {
+      let param = {
          user: message.user,
          gear: gearDescription(message),
          interactions: discoverConfig(hubot, message)
@@ -18,7 +18,7 @@ function handle(hubot, message) {
 
 function isGearConfigureMessage(hubot, message) {
    return hubot.gears.find(function(gear) {
-      var configureMessage = 'configure ' + gear.description; 
+      const configureMessage = 'configure ' + gear.description; 
     
       return message.text === configureMessage;
    }) != null;

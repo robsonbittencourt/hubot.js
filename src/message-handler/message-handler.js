@@ -3,12 +3,12 @@
 exports.callTasks = callTasks;
 
 function callTasks(message, core) {
-   let handlers = getHandlers();
+   const handlers = getHandlers();
 
    for (let i = 0; i < handlers.length; i++) {
-      let handler = require(__base + 'src/message-handler/handlers/' + handlers[i]);
+      const handler = require(__base + 'src/message-handler/handlers/' + handlers[i]);
       
-      let isHandled = handler.handle(core.hubot, message, core);
+      const isHandled = handler.handle(core.hubot, message, core);
       
       if (isHandled) {
          break;

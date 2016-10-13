@@ -1,9 +1,9 @@
 'use strict';
 
-var fs = require('fs');
-var log = require(__base + 'src/lib/log');
-var speech = require(__base + 'src/speech');
-var db = require(__base + 'src/lib/db');
+const fs = require('fs');
+const log = require(__base + 'src/lib/log');
+const speech = require(__base + 'src/speech');
+const db = require(__base + 'src/lib/db');
 
 const gearNamePrefix = 'gear-';
 
@@ -20,12 +20,12 @@ module.exports = class Assembler {
 
    loadGears(self) {
       fs.readdir(__nodeModules, function (error, list) {
-         var gearsNames = list.filter(function (e) {
+         const gearsNames = list.filter(function (e) {
             return e.startsWith(gearNamePrefix);
          });
 
          gearsNames.forEach(function(gearName) {
-            var gearDescription = gearName.replace("gear-", "");
+            const gearDescription = gearName.replace("gear-", "");
             
             self.gears.push( { name: gearName, description: gearDescription } );
          });   
@@ -83,7 +83,7 @@ module.exports = class Assembler {
       gear.handlers = [];
 
       gear.tasks.forEach(function(task) {
-         var handler = require(self.handlersPath(gear, task.handler));
+         const handler = require(self.handlersPath(gear, task.handler));
 
          gear.handlers.push({ key: task.handler, handle: handler.handle});
       });

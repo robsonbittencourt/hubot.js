@@ -1,18 +1,18 @@
  'use strict';
 
-var util = require('util');
-var Bot = require('slackbots');
-var log = require(__base + 'src/lib/log');
-var Assembler = require(__base + 'src/assembler');
-var messageHandler = require(__base + 'src/message-handler/message-handler');
-var firstRun = require(__base + 'src/first-run');
-var Hubot = require(__base + 'src/hubot');
-var db = require(__base + 'src/lib/db');
+const util = require('util');
+const Bot = require('slackbots');
+const Hubot = require(__base + 'src/hubot');
+const log = require(__base + 'src/lib/log');
+const Assembler = require(__base + 'src/assembler');
+const messageHandler = require(__base + 'src/message-handler/message-handler');
+const firstRun = require(__base + 'src/first-run');
+const db = require(__base + 'src/lib/db');
 
-var botName;
-var botUser;
-var coreSettings;
-var isFirstRun = false;
+let botName;
+let botUser;
+let coreSettings;
+let isFirstRun = false;
 
 process.on('uncaughtException', function (exception) {
   log.error(exception);

@@ -1,18 +1,16 @@
 'use strict';
 
+const Q = require('q');
+const EventEmitter = require('events');
+
 exports.startConversation = startConversation;
 exports.hasActiveConversation = hasActiveConversation;
 exports.notify = notify;
 
-let Q = require('q');
-
-const EventEmitter = require('events');
-
 class MyEmitter extends EventEmitter {}
-
 const myEmitter = new MyEmitter();
 
-var activeConversations = [];
+let activeConversations = [];
 
 function startConversation(hubot, conversation, message) {
    activeConversations.push(conversation);
@@ -23,7 +21,7 @@ function startConversation(hubot, conversation, message) {
 }
 
 function start(hubot, conversation, message) {
-   var interactions = conversation.interactions;
+   const interactions = conversation.interactions;
 
    if (conversation.nextInteration < interactions.length) {
       speak(hubot, message, conversation, function(conversation) {
@@ -41,7 +39,7 @@ function start(hubot, conversation, message) {
 }
 
 function speak(hubot, message, conversation, callback) {
-   var interaction = conversation.interactions[conversation.nextInteration];
+   const interaction = conversation.interactions[conversation.nextInteration];
 
    hubot.speak(message, interaction.speak).then(function() {
       if(justSpeak(conversation, interaction, callback)) return;
@@ -116,10 +114,10 @@ function withExpectedResponse(conversation, interaction, response, hubot, messag
 }
 
 function hasAnotherInteraction(conversation, interaction, response, hubot, message) {
-   var expectedResponse = getExpectedResponse(interaction.expectedResponses, response);
+   const expectedResponse = getExpectedResponse(interaction.expectedResponses, response);
    
    if (expectedResponse.iteration) {
-      var newConversation = {
+      const newConversation = {
          user: message.user,
          interactions: [expectedResponse.iteration],
          gear: conversation.gear,
@@ -136,7 +134,7 @@ function hasAnotherInteraction(conversation, interaction, response, hubot, messa
 
 function handleResponse(conversation, interaction, response) {
    if (interaction.handler) {
-      var handler = require(__nodeModules + 'gear-' + conversation.gear + '/' + interaction.handler);
+      const handler = require(__nodeModules + 'gear-' + conversation.gear + '/' + interaction.handler);
       return handler.handle(response.text);
    }    
 }
@@ -150,7 +148,7 @@ function getExpectedResponse(expectedResponses, response) {
 }
 
 function getExpectedResponses(interaction) {
-   let expectedResponses = [];
+   const expectedResponses = [];
 
    interaction.expectedResponses.forEach(e => expectedResponses.push(e.response));
 

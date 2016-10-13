@@ -1,31 +1,31 @@
-var expect  = require('chai').expect;
-var setup  = require('../setup').start();
-var Assembler = require('../../src/assembler');
+const expect  = require('chai').expect;
+const setup  = require('../setup').start();
+const Assembler = require('../../src/assembler');
 
 describe('The Hubot Assembler', function() {
    
    describe('should provide correct path', function() {
       
       it('for tasks', function() {
-         var gear = { name: 'test' };
+         const gear = { name: 'test' };
 
-         var path = getAssembler().tasksPath(gear);
+         const path = getAssembler().tasksPath(gear);
 
          expect(path).to.equal(__nodeModules + 'test/config/tasks.json');
       });
 
       it('for categories', function() {
-         var gear = { name: 'test' };
+         const gear = { name: 'test' };
 
-         var path = getAssembler().categoriesPath(gear);
+         const path = getAssembler().categoriesPath(gear);
 
          expect(path).to.equal(__nodeModules + 'test/config/categories.json');
       });
 
       it('for handlers', function() {
-         var gear = { name: 'test' };
+         const gear = { name: 'test' };
 
-         var path = getAssembler().handlersPath(gear, 'test-handler');
+         const path = getAssembler().handlersPath(gear, 'test-handler');
 
          expect(path).to.equal(__nodeModules + 'test/src/handlers/test-handler');
       });
@@ -35,8 +35,8 @@ describe('The Hubot Assembler', function() {
    describe('should load', function() {
       
       it('task file', function() {
-         var assembler = getAssembler();
-         var gear = { name: 'gear-test' };
+         const assembler = getAssembler();
+         const gear = { name: 'gear-test' };
 
          assembler.loadTasks(gear, assembler);
 
@@ -47,8 +47,8 @@ describe('The Hubot Assembler', function() {
       });
 
       it('category file', function() {
-         var assembler = getAssembler();
-         var gear = { name: 'gear-test' };
+         const assembler = getAssembler();
+         const gear = { name: 'gear-test' };
 
          assembler.loadCategories(gear, assembler);
 
@@ -61,8 +61,8 @@ describe('The Hubot Assembler', function() {
       });
 
       it('handler file based on tasks handlers', function() {
-         var assembler = getAssembler();
-         var gear = { name: 'gear-test' };
+         const assembler = getAssembler();
+         const gear = { name: 'gear-test' };
 
          assembler.loadTasks(gear, assembler);
          assembler.loadHandlers(gear, assembler);
@@ -72,8 +72,8 @@ describe('The Hubot Assembler', function() {
       });
 
       it('and should not load when handler file if there is not tasks', function() {
-         var assembler = getAssembler();
-         var gear = { name: 'gear-test', tasks: [] };
+         const assembler = getAssembler();
+         const gear = { name: 'gear-test', tasks: [] };
 
          assembler.loadHandlers(gear, assembler);
 
@@ -85,8 +85,8 @@ describe('The Hubot Assembler', function() {
    describe('should load gears', function() { 
 
       it('when is a valid gear', function() {
-         var assembler = getAssembler();
-         var gear = { name: 'gear-test' };
+         const assembler = getAssembler();
+         const gear = { name: 'gear-test' };
          
          assembler.loadGear([gear], gear, 0);
          
@@ -107,7 +107,7 @@ describe('The Hubot Assembler', function() {
       });  
 
       it('and should not throw error when invalid parameters are informed', function() {
-         var assembler = getAssembler();
+         const assembler = getAssembler();
          
          assembler.loadGear(null, null, null);
          
@@ -115,8 +115,8 @@ describe('The Hubot Assembler', function() {
       });
 
       it('neigther should throw error loading when informed an invalid gear', function() {
-         var assembler = getAssembler();
-         var gear = { name: 'invalid' };
+         const assembler = getAssembler();
+         const gear = { name: 'invalid' };
          
          assembler.loadGear([gear], gear, 0);
          

@@ -1,15 +1,15 @@
 'use strict';
 
-exports.firstRun = firstRun;
+const db = require(__base + 'src/lib/db');
 
-var db = require(__base + 'src/lib/db');
+exports.firstRun = firstRun;
 
 function firstRun(core, message) {
    db.getDb().run("INSERT INTO first_use(first_use) VALUES('NO')");
    db.getDb().run("INSERT INTO admins(admin) VALUES(?)", message.user);
 
-   let hubot = core.hubot;
-   let messageDelay = 3000;
+   const hubot = core.hubot;
+   const messageDelay = 3000;
    
    hubot.speak(message, message1(hubot, core, message), messageDelay)
       .then(function() {
@@ -37,7 +37,7 @@ function message1(hubot, core, message) {
 }
 
 function message2(hubot) {
-   return hubot.speech().append("Before I need you to do some settings. How was you who started me I will define it as my system administrator. So you can access the settings in the future.").end();
+   return hubot.speech().append("Before I need you to do some settings. How was you who started me I will define you as my system administrator. So you can access the settings in the future.").end();
 }
 
 function message3(hubot) {
@@ -57,7 +57,7 @@ function message6(hubot) {
 }
 
 function postGearsNames(hubot) {
-   var speech = hubot.speech();
+   const speech = hubot.speech();
    
    hubot.gears.forEach(g => speech.item(g.description).line());
 

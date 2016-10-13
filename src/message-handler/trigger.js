@@ -1,8 +1,8 @@
 'use strict';
 
-exports.check = check;
+const stringfy = require('string');
 
-var stringfy = require('string');
+exports.check = check;
 
 function check(message, trigger) {
    return new Trigger('$').with(normalize(trigger)).accept(normalize(message));

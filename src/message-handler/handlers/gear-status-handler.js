@@ -3,10 +3,10 @@
 exports.handle = handle;
 
 const speech = require(__base + 'src/speech');
-var db = require(__base + 'src/lib/db');
+const db = require(__base + 'src/lib/db');
 
 function handle(hubot, message, core) {
-   var action = getAction(message);
+   const action = getAction(message);
 
    if (action && isGearChangeStatusMessage(action, hubot, message)) {
       core.isAdminUser(message.user).then(changeStatus);          
@@ -16,7 +16,7 @@ function handle(hubot, message, core) {
 
    function changeStatus(isAdmin) {
       if (isAdmin) {
-         var gear = discoverGear(action, hubot, message);
+         const gear = discoverGear(action, hubot, message);
 
          if (gear && gear.active === action.status) {
             hubot.speak(message, 'This gear is already ' + action.statusDescription + '.');
@@ -41,14 +41,14 @@ function changeGearStatus(action, hubot, gear) {
 
 function isGearChangeStatusMessage(action, hubot, message) {
    return hubot.gears.find(function(gear) {
-      var configureMessage = action.description + ' ' + gear.description; 
+      const configureMessage = action.description + ' ' + gear.description; 
     
       return message.text === configureMessage;
    }) != null;
 }
 
 function discoverGear(action, hubot, message) {
-   var gearDescription = message.text.replace(action.description + ' ', '');
+   const gearDescription = message.text.replace(action.description + ' ', '');
    return hubot.findGear(gearDescription);
 } 
 

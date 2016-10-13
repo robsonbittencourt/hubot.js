@@ -1,10 +1,10 @@
 'use strict';
 
+const winston = require('winston');
+
 exports.info = info;
 exports.error = error;
 exports.detailedError = detailedError;
-
-var winston = require('winston');
 
 winston.add(winston.transports.File, { filename: __base + 'logs/hubot.log', handleExceptions: true });
 winston.remove(winston.transports.Console);

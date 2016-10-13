@@ -1,16 +1,16 @@
 'use strict';
 
-let db = require('sqlite');
-let path = require('path');
+const db = require('sqlite');
+const path = require('path');
 
 exports.startDb = startDb;
 exports.getDb = getDb;
 
-var database;
+let database;
 
 function startDb() {
-   let dbFile = path.resolve(process.cwd(), 'data', 'hubot.db');
-   let migrations = path.resolve(process.cwd(), 'migrations');
+   const dbFile = path.resolve(process.cwd(), 'data', 'hubot.db');
+   const migrations = path.resolve(process.cwd(), 'migrations');
 
    function open(dbFile) {
       return db.open(dbFile);

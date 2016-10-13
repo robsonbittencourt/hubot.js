@@ -11,7 +11,7 @@ function error(text) {
    return new Speecher().error(text);
 }
 
-var Speecher = function () {
+const Speecher = function () {
    this.message = null;
 }
 

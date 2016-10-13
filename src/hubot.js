@@ -1,8 +1,9 @@
 'use strict';
 
-let Q = require('q');
-var log = require(__base + 'src/lib/log');
-var speech = require(__base + 'src/speech');
+const Q = require('q');
+const log = require(__base + 'src/lib/log');
+const speech = require(__base + 'src/speech');
+
 let _core;
 
 module.exports = class Hubot {
@@ -13,8 +14,8 @@ module.exports = class Hubot {
    }
 
    speakTo(recipient, text, message, delay = 1000) {
-      let deferred = Q.defer();
-      let channel = message ? message.channel : recipient;
+      const deferred = Q.defer();
+      const channel = message ? message.channel : recipient;
 
       _core.ws.send(JSON.stringify({ type: 'typing', channel: channel }));
       

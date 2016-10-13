@@ -1,20 +1,20 @@
 'use strict';
 
-exports.handle = handle;
+const Hubot = require(__base + 'src/hubot');
+const trigger = require(__base + 'src/message-handler/trigger');
 
-var Hubot = require(__base + 'src/hubot');
-var trigger = require(__base + 'src/message-handler/trigger');
+exports.handle = handle;
 
 function handle(hubot, message, core) {
    hubot.gears.forEach(function(gear) {
       gear.tasks.forEach(function(task) {
 
-         var acceptance = trigger.check(message.text, task.trigger);
+         const acceptance = trigger.check(message.text, task.trigger);
          
          if (acceptance.ok) {
             if (gear.active) {
-               var hubotClone = getHubotClone(core);
-               var handler = getHandler(gear, task);
+               const hubotClone = getHubotClone(core);
+               const handler = getHandler(gear, task);
                handler.handle(hubotClone, message, task, acceptance.params);
             } else {
                hubot.speak(message, "Sorry, this feature is disabled.");
@@ -30,7 +30,7 @@ function handle(hubot, message, core) {
 }
 
 function getHubotClone(core) {
-   var hubotClone = new Hubot(core);
+   const hubotClone = new Hubot(core);
    hubotClone.gears = JSON.parse(JSON.stringify(core.hubot.gears));
    
    return hubotClone;
