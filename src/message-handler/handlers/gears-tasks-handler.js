@@ -13,6 +13,10 @@ function handle(hubot, message, core) {
          
          if (acceptance.ok) {
             if (gear.active) {
+               if (incorretMessageSource(hubot, task, message)) {
+                  return true;
+               }              
+
                const hubotClone = getHubotClone(core);
                const handler = getHandler(gear, task);
                handler.handle(hubotClone, message, task, acceptance.params);
@@ -27,6 +31,20 @@ function handle(hubot, message, core) {
    });
 
    return false;
+}
+
+function incorretMessageSource(hubot, task, message) {
+   if (task.onlyInChannel && !hubot.isFromChannel(message)) {
+      hubot.speak(message, "Sorry, this feature can only be performed on a channel.");
+      return true;
+   } 
+
+   if (task.onlyInPrivate && !hubot.isFromPrivate(message)) {
+      hubot.speak(message, "Sorry, this feature can only be performed directly with me in private.");
+      return true;
+   }
+
+   return false; 
 }
 
 function getHubotClone(core) {
