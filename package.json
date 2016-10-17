@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "istanbul cover --include-all-sources _mocha -- --recursive --reporter spec",
-    "coveralls": "cat ./coverage/lcov.info | coveralls"
+    "coveralls": "cat ./coverage/lcov.info | coveralls",
+    "lint": "eslint *.js"
   },
   "repository": {
     "type": "git",
