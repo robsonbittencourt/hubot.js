@@ -1,7 +1,8 @@
 'use strict';
 
-const db = require('sqlite');
 const path = require('path');
+
+const sqlite = require('sqlite');
 
 exports.startDb = startDb;
 exports.getDb = getDb;
@@ -9,26 +10,24 @@ exports.getDb = getDb;
 let database;
 
 function startDb() {
-   const dbFile = path.resolve(process.cwd(), 'data', 'hubot.db');
-   const migrations = path.resolve(process.cwd(), 'migrations');
+  return open()
+        .then(migrate)
+        .catch(() => { }); // do nothing
+}
 
-   function open(dbFile) {
-      return db.open(dbFile);
-   }
+function open() {
+  const dbFile = path.resolve(process.cwd(), 'data', 'hubot.db');
 
-   function migrate(db) {
-      db.migrate({migrationsPath: migrations}).then(function(result) {
-         database = result;
-      });
-   }
-   
-   return open(dbFile)
-      .then(migrate)
-      .catch(function() {
-         //do nothing
-      }); 
+  return sqlite.open(dbFile);
+}
+
+function migrate(sqliteDb) {
+  const migrations = path.resolve(process.cwd(), 'migrations');
+
+  return sqliteDb.migrate({ migrationsPath: migrations })
+          .then((result) => { database = result; });
 }
 
 function getDb() {
-   return database;
+  return database;
 }

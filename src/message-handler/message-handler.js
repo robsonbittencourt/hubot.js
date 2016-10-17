@@ -1,27 +1,31 @@
 'use strict';
 
+const firstRun = require('./handlers/first-run-handler');
+const gearStatus = require('./handlers/gear-status-handler');
+const gearsTasks = require('./handlers/gears-tasks-handler');
+const conversation = require('./handlers/conversation-handler');
+const gearConfigure = require('./handlers/gear-configure-handler');
+
 exports.callTasks = callTasks;
 
 function callTasks(message, core) {
-   const handlers = getHandlers();
+  const handlers = getHandlers();
 
-   for (let i = 0; i < handlers.length; i++) {
-      const handler = require(__base + 'src/message-handler/handlers/' + handlers[i]);
-      
-      const isHandled = handler.handle(core.hubot, message, core);
-      
-      if (isHandled) {
-         break;
-      }
-   };   
+  for (let i = 0; i < handlers.length; i++) {
+    const isHandled = handlers[i].handle(core.hubot, message, core);
+
+    if (isHandled) {
+      break;
+    }
+  }
 }
 
 function getHandlers() {
-   return [
-      'first-run-handler',
-      'conversation-handler',
-      'gear-status-handler',
-      'gear-configure-handler',
-      'gears-tasks-handler'
-   ];
+  return [
+    firstRun,
+    conversation,
+    gearStatus,
+    gearConfigure,
+    gearsTasks
+  ];
 }

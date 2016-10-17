@@ -1,8 +1,8 @@
 [
-   {
-      "key": "test",
-      "name": "test",
-      "description": "some test",
-      "visible": false
-   }
+  {
+    "key": "test",
+    "name": "test",
+    "description": "some test",
+    "visible": false
+  }
 ]

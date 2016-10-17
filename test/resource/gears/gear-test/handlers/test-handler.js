@@ -3,5 +3,5 @@
 exports.process = process;
 
 function process() {
-   return { key: 'test-process'};
+  return { key: 'test-process' };
 }

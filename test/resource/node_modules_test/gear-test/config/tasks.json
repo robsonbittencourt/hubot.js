@@ -1,6 +1,6 @@
 [
-   {
-      "handler": "test-handler",
-      "trigger": "test-trigger"
-   }
+  {
+    "handler": "test-handler",
+    "trigger": "test-trigger"
+  }
 ]

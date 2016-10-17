@@ -1,77 +1,72 @@
 'use strict';
 
 const Q = require('q');
-const log = require(__base + 'src/lib/log');
-const speech = require(__base + 'src/speech');
 
-let _core;
+const log = require('./lib/log');
+const speech = require('./speech');
+
+let core;
 
 module.exports = class Hubot {
-   
-   constructor(core) {
-      this.gears = [];
-      _core = core;
-   }
 
-   speakTo(recipient, text, message, delay = 1000) {
-      const deferred = Q.defer();
-      const channel = message ? message.channel : recipient;
+  constructor(receivedCore) {
+    this.gears = [];
+    core = receivedCore;
+  }
 
-      _core.ws.send(JSON.stringify({ type: 'typing', channel: channel }));
-      
-      setTimeout(() => {
-         
-         _core.postMessage(recipient, text, {as_user: true}).then(function() {
-            deferred.resolve();
-         }, function() {
-            deferred.reject();
-         });
+  speakTo(recipient, text, message, delay = 1000) {
+    const deferred = Q.defer();
+    const channel = message ? message.channel : recipient;
 
-      }, delay);
+    core.ws.send(JSON.stringify({ type: 'typing', channel }));
 
-      return deferred.promise;
-   }
+    setTimeout(() => {
+      core.postMessage(recipient, text, { as_user: true })
+        .then(() => deferred.resolve(),
+              () => deferred.reject());
+    }, delay);
 
-   speak(message, text, delay) {
-      return this.speakTo(this.getRecipient(message), text, message, delay);
-   }
+    return deferred.promise;
+  }
 
-   logInfo(info) {
-      log.info(info);
-   }
+  speak(message, text, delay) {
+    return this.speakTo(this.getRecipient(message), text, message, delay);
+  }
 
-   logError(error) {
-      log.error(error);
-   }
+  logInfo(info) {
+    log.info(info);
+  }
 
-   logDetailedError(error, metadata) {
-      log.detailedError(error, metadata);
-   }
+  logError(error) {
+    log.error(error);
+  }
 
-   isFromChannel(message) {
-      return _core.isChannelConversation(message);
-   }
+  logDetailedError(error, metadata) {
+    log.detailedError(error, metadata);
+  }
 
-   isFromPrivate(message) {
-      return _core.isPrivateConversation(message);
-   }
+  isFromChannel(message) {
+    return core.isChannelConversation(message);
+  }
 
-   getUser(message) {
-      return _core.getUserById(message.user);
-   }
+  isFromPrivate(message) {
+    return core.isPrivateConversation(message);
+  }
 
-   getRecipient(message) {
-      return _core.getRecipient(message);
-   }
+  getUser(message) {
+    return core.getUserById(message.user);
+  }
 
-   speech(message) {
-      return speech.start(message);
-   }
+  getRecipient(message) {
+    return core.getRecipient(message);
+  }
 
-   findGear(gear) {
-      return this.gears.find(g => g.description === gear);
-   }
-   
-}
+  speech(message) {
+    return speech.start(message);
+  }
 
+  findGear(gear) {
+    return this.gears.find(g => g.description === gear);
+  }
 
+};

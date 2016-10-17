@@ -1,41 +1,46 @@
 {
-   "name": "hubot.js",
-   "version": "1.0.0",
-   "description": "A small robot written in Javascript (He does not like coffeescript)",
-   "main": "app.js",
-   "scripts": {
-      "test": "istanbul cover --include-all-sources _mocha -- --recursive --reporter spec",
-      "coveralls": "cat ./coverage/lcov.info | coveralls"
-   },
-   "repository": {
-   "type": "git",
-   "url": "git+https://github.com/robsonbittencourt/hubot.js.git"
-   },
-   "keywords": [
-      "hubot",
-      "slack",
-      "docker",
-      "jenkins"
-   ],
-   "author": "robsonbittencourt",
-   "license": "MIT",
-   "bugs": {
-      "url": "https://github.com/robsonbittencourt/hubot.js/issues"
-   },
-   "homepage": "https://github.com/robsonbittencourt/hubot.js#readme",
-   "dependencies": {
-      "slackbots": "^0.5.2",
-      "string": "^3.3.1",
-      "winston": "^2.2.0",
-      "q": "^1.4.1",
-      "sqlite": "^2.2.0",
-      "gear-help": "^1.0.1",
-      "gear-jenkins": "^1.0.1"
-   },
-   "devDependencies": {
-      "chai": "^3.5.0",
-      "mocha": "^3.0.2",
-      "istanbul": "^0.4.5",
-      "coveralls": "^2.11.12"
-   }
+  "name": "hubot.js",
+  "version": "1.0.0",
+  "description": "A small robot written in Javascript (He does not like coffeescript)",
+  "main": "app.js",
+  "scripts": {
+    "test": "istanbul cover --include-all-sources _mocha -- --recursive --reporter spec",
+    "coveralls": "cat ./coverage/lcov.info | coveralls"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/robsonbittencourt/hubot.js.git"
+  },
+  "keywords": [
+    "hubot",
+    "slack",
+    "docker",
+    "jenkins"
+  ],
+  "author": "robsonbittencourt",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/robsonbittencourt/hubot.js/issues"
+  },
+  "homepage": "https://github.com/robsonbittencourt/hubot.js#readme",
+  "dependencies": {
+    "slackbots": "^0.5.2",
+    "string": "^3.3.1",
+    "winston": "^2.2.0",
+    "q": "^1.4.1",
+    "sqlite": "^2.2.0",
+    "gear-help": "^1.0.1",
+    "gear-jenkins": "^1.0.1"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "coveralls": "^2.11.12",
+    "eslint": "^3.8.0",
+    "eslint-config-airbnb": "^12.0.0",
+    "eslint-plugin-import": "^1.16.0",
+    "eslint-plugin-jsx-a11y": "^2.2.3",
+    "eslint-plugin-react": "^6.4.1",
+    "istanbul": "^0.4.5",
+    "mocha": "^3.0.2"
+  }
 }

@@ -6,17 +6,17 @@ exports.info = info;
 exports.error = error;
 exports.detailedError = detailedError;
 
-winston.add(winston.transports.File, { filename: __base + 'logs/hubot.log', handleExceptions: true });
+winston.add(winston.transports.File, { filename: '../../logs/hubot.log', handleExceptions: true });
 winston.remove(winston.transports.Console);
 
-function info(info) {
-   winston.info(info);
+function info(logInfo) {
+  winston.info(logInfo);
 }
 
-function error(error) {
-   winston.error(error);
+function error(logError) {
+  winston.error(logError);
 }
 
-function detailedError(error, metadata) {
-   winston.error('error', error, {error: metadata});
+function detailedError(logError, metadata) {
+  winston.error('error', logError, { error: metadata });
 }

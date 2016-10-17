@@ -1,37 +1,33 @@
 'use strict';
 
-const conversation = require(__base + 'src/message-handler/conversation');
+const conversation = require('../conversation');
 
 exports.handle = handle;
 
 function handle(hubot, message) {
-   if (isGearConfigureMessage(hubot, message)) {
-      let param = {
-         user: message.user,
-         gear: gearDescription(message),
-         interactions: discoverConfig(hubot, message)
-      }
+  if (isGearConfigureMessage(hubot, message)) {
+    const param = {
+      user: message.user,
+      gear: gearDescription(message),
+      interactions: discoverConfig(hubot, message)
+    };
 
-      conversation.startConversation(hubot, param, message);
-   }
+    conversation.startConversation(hubot, param, message);
+  }
 }
 
 function isGearConfigureMessage(hubot, message) {
-   return hubot.gears.find(function(gear) {
-      const configureMessage = 'configure ' + gear.description; 
-    
-      return message.text === configureMessage;
-   }) != null;
+  return hubot.gears.find((gear) => {
+    const configureMessage = `configure ${gear.description}`;
+
+    return message.text === configureMessage;
+  }) != null;
 }
 
 function discoverConfig(hubot, message) {
-   return hubot.gears.find(g => g.description === gearDescription(message)).configs;
-}
-
-function getConfigHandler(hubot, message) {
-   return hubot.gears.find(g => g.description === gearDescription(message)).configHandler;
+  return hubot.gears.find(g => g.description === gearDescription(message)).configs;
 }
 
 function gearDescription(message) {
-   return message.text.replace("configure ", "");
+  return message.text.replace('configure ', '');
 }
