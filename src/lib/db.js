@@ -24,7 +24,7 @@ function open() {
 function migrate(sqliteDb) {
   const migrations = path.resolve(process.cwd(), 'migrations');
 
-  return sqliteDb.migrate({ migrationsPath: migrations})
+  return sqliteDb.migrate({ migrationsPath: migrations })
           .then((result) => { database = result; });
 }
 
