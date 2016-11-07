@@ -1,7 +1,8 @@
 'use strict';
 
 const Q = require('q');
-const printMessage = require('print-message');
+const pm2 = require('pm2');
+const dialog = require('dialog');
 
 const Core = require('../core');
 const db = require('../lib/db');
@@ -13,10 +14,7 @@ db.startDb()
   .then(getConfig)
   .then(validate)
   .then(initCore)
-  .catch((err) => {
-    printMessage([err]);
-    process.exit();
-  });
+  .catch(showErrorMessage);
 
 function getConfig() {
   return db.getDb().get('SELECT * FROM config');
@@ -40,4 +38,10 @@ function validate(config) {
 
 function initCore(config) {
   new Core({ token: config.token, name: config.name }).run();
+}
+
+function showErrorMessage(err) {
+  dialog.err(err, 'Error', () => {
+    pm2.stop('hubot', () => pm2.disconnect());
+  });
 }
