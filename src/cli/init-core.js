@@ -1,20 +1,43 @@
 'use strict';
 
+const Q = require('q');
+const printMessage = require('print-message');
+
 const Core = require('../core');
 const db = require('../lib/db');
 const path = require('path');
 
 global.__nodeModules = path.join(__dirname, '../../node_modules/');
 
-const token = 'xoxb-56400686804-GLgqTqg6spBpLBc3T08XhYYg';
-const name = process.env.BOT_NAME || 'hubot';
-
-function start() {
-  db.startDb().then(() => {
-    const core = new Core({ token, name });
-
-    core.run();
+db.startDb()
+  .then(getConfig)
+  .then(validate)
+  .then(initCore)
+  .catch((err) => {
+    printMessage([err]);
+    process.exit();
   });
+
+function getConfig() {
+  return db.getDb().get('SELECT * FROM config');
 }
 
-start();
+function validate(config) {
+  const deferred = Q.defer();
+
+  if (!config) {
+    deferred.reject('Please make config before start');
+  } else if (!config.token) {
+    deferred.reject('Please config token before start');
+  } else if (!config.name) {
+    deferred.reject('Please config name before start');
+  } else {
+    deferred.resolve(config);
+  }
+
+  return deferred.promise;
+}
+
+function initCore(config) {
+  new Core({ token: config.token, name: config.name }).run();
+}

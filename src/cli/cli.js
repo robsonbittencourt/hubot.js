@@ -44,15 +44,16 @@ switch (command) {
 }
 
 function start() {
-  pm2.start({ script: 'src/cli/init-core.js' }, () => pm2.disconnect());
+  const config = { script: 'src/cli/init-core.js', name: 'hubot', maxRestarts: 2 };
+  pm2.start(config, () => pm2.disconnect());
 }
 
 function stop() {
-  pm2.stop('init-core', () => pm2.disconnect());
+  pm2.stop('hubot', () => pm2.disconnect());
 }
 
 function restart() {
-  pm2.restart('init-core', () => pm2.disconnect());
+  pm2.restart('hubot', () => pm2.disconnect());
 }
 
 function executeProcessManager(action) {
