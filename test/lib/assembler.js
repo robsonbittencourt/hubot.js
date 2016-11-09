@@ -24,7 +24,7 @@ describe('The Hubot Assembler', () => {
 
       const categoriesPath = getAssembler().categoriesPath(gear);
 
-      expect(categoriesPath).to.equal(`${global.__nodeModules}test/config/categories.json`);
+      expect(categoriesPath).to.equal(`${global.__nodeModules}test/config/catedgories.json`);
     });
 
     it('for handlers', () => {
