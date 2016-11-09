@@ -2,7 +2,10 @@
   "name": "hubot.js",
   "version": "1.0.0",
   "description": "A small robot written in Javascript (He does not like coffeescript)",
-  "main": "app.js",
+  "main": "index.js",
+  "bin": {
+    "hubot": "index.js"
+  },
   "scripts": {
     "test": "istanbul cover --include-all-sources _mocha -- --recursive --reporter spec",
     "coveralls": "cat ./coverage/lcov.info | coveralls",
@@ -30,6 +33,8 @@
     "winston": "^2.2.0",
     "q": "^1.4.1",
     "sqlite": "^2.2.0",
+    "pm2": "2.0.19",
+    "dialog": "0.2.0",
     "gear-help": "^1.0.1",
     "gear-jenkins": "^1.0.1"
   },

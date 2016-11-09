@@ -16,13 +16,13 @@ function startDb() {
 }
 
 function open() {
-  const dbFile = path.resolve(process.cwd(), 'data', 'hubot.db');
+  const dbFile = path.join(__dirname, '../..', 'data', 'hubot.db');
 
   return sqlite.open(dbFile);
 }
 
 function migrate(sqliteDb) {
-  const migrations = path.resolve(process.cwd(), 'migrations');
+  const migrations = path.join(__dirname, '../..', 'migrations');
 
   return sqliteDb.migrate({ migrationsPath: migrations })
           .then((result) => { database = result; });
