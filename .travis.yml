@@ -11,7 +11,8 @@ services:
 
 script:
   - npm run lint
-
+  - npm test
+  
 after_success:
   - if [[ "$TRAVIS_BRANCH" == "master" ]]; then
     docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" ;
