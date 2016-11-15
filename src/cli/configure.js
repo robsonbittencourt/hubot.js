@@ -17,31 +17,19 @@ function getConfig() {
 }
 
 function updateConfig(config, args) {
-  const token = getToken(config, args);
-  const name = getName(config, args);
+  const token = chooseConfig(config, args, 'token');
+  const name = chooseConfig(config, args, 'name');
 
   db.getDb().run('UPDATE config SET token = ?, name = ?', token, name);
 }
 
-function getToken(config, args) {
-  if (args && args.token) {
-    return args.token;
+function chooseConfig(config, args, propertie) {
+  if (args && args[propertie]) {
+    return args[propertie];
   }
 
-  if (config && config.token) {
-    return config.token;
-  }
-
-  return null;
-}
-
-function getName(config, args) {
-  if (args && args.name) {
-    return args.name;
-  }
-
-  if (config && config.name) {
-    return config.name;
+  if (config && config[propertie]) {
+    return config[propertie];
   }
 
   return null;
