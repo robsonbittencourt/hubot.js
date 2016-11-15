@@ -10,7 +10,7 @@ const STOP_COMMAND = 'stop';
 const RESTART_COMMAND = 'restart';
 const CONFIGURE_COMMAND = 'configure';
 
-const argv = yargs.usage(`Pluralsight Downloader \n
+const argv = yargs.usage(`Hubot.js \n
 Usage: hubot <command> [options]`)
   .command(START_COMMAND, 'Start the hubot')
   .command(STOP_COMMAND, 'Stop the hubot')
@@ -18,8 +18,8 @@ Usage: hubot <command> [options]`)
   .command(CONFIGURE_COMMAND, 'Restart the hubot')
   .alias('t', 'token')
   .alias('n', 'name')
-  .describe('t', 'Use the token')
-  .describe('n', 'Use the bot name')
+  .describe('t', 'Inform Slack API Token')
+  .describe('n', 'Inform the bot name')
   .argv;
 
 const command = argv._[0];
