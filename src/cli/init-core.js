@@ -3,10 +3,12 @@
 const Q = require('q');
 const pm2 = require('pm2');
 const dialog = require('dialog');
+const yargs = require('yargs');
 
 const Core = require('../core');
 const db = require('../lib/db');
 const path = require('path');
+const configure = require('./configure');
 
 global.__nodeModules = path.join(__dirname, '../../node_modules/');
 
@@ -17,6 +19,13 @@ db.startDb()
   .catch(showErrorMessage);
 
 function getConfig() {
+  const hasParameter = yargs.argv.token || yargs.argv.name;
+
+  if (hasParameter) {
+    configure.configure(yargs.argv);
+    return { token: yargs.argv.token, name: yargs.argv.name };
+  }
+
   return db.getDb().get('SELECT * FROM config');
 }
 

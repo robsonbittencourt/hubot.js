@@ -26,7 +26,7 @@ const command = argv._[0];
 
 switch (command) {
   case START_COMMAND:
-    executeProcessManager(start);
+    executeProcessManager(start, argv);
     break;
   case STOP_COMMAND:
     executeProcessManager(stop);
@@ -43,8 +43,9 @@ switch (command) {
     break;
 }
 
-function start() {
-  const config = { script: 'src/cli/init-core.js', name: 'hubot', maxRestarts: 2 };
+function start(args) {
+  const argsArray = buildArgsArray(args);
+  const config = { script: 'src/cli/init-core.js', name: 'hubot', args: argsArray, maxRestarts: 2 };
   pm2.start(config, () => pm2.disconnect());
 }
 
@@ -56,10 +57,22 @@ function restart() {
   pm2.restart('hubot', () => pm2.disconnect());
 }
 
-function executeProcessManager(action) {
+function executeProcessManager(action, args) {
   try {
-    pm2.connect(() => action());
+    pm2.connect(() => action(args));
   } catch (err) {
     process.exit(2);
   }
+}
+
+function buildArgsArray(args) {
+  const argsArray = [];
+
+  Object.keys(args).forEach((key) => {
+    if (args[key]) {
+      argsArray.push(`--${key}=${args[key]}`);
+    }
+  });
+
+  return argsArray;
 }

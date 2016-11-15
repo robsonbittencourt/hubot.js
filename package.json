@@ -42,7 +42,7 @@
     "chai": "^3.5.0",
     "coveralls": "^2.11.12",
     "eslint": "^3.8.0",
-    "eslint-config-hubot-js": "^1.0.2",
+    "eslint-config-hubot-js": "^1.0.4",
     "istanbul": "^0.4.5",
     "mocha": "^3.0.2"
   }
