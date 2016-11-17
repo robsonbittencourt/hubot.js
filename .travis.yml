@@ -21,3 +21,16 @@ deploy:
   api_key: "$NPM_API_KEY"
   on:
     branch: build
+
+after_deploy:
+  - if [[ "$TRAVIS_BRANCH" == "build" ]]; then
+      docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" ;
+
+      export VERSION=$(node -p -e "JSON.parse(require('fs').readFileSync('package.json', 'utf8')).version")
+    
+      docker build --build-arg version=${VERSION} -t robsonbittencourt/hubot.js:latest -t robsonbittencourt/hubot.js:${VERSION} . ;
+    
+      docker push docker.io/robsonbittencourt/hubot.js:latest ;
+
+      docker push docker.io/robsonbittencourt/hubot.js:${VERSION} ;
+    fi
