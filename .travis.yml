@@ -21,15 +21,3 @@ deploy:
   api_key: "$NPM_API_KEY"
   on:
     branch: build
-  
-  - if [[ "$TRAVIS_BRANCH" == "build" ]]; then
-      docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" ;
-
-      version=$(cat package.json | grep version | head -1 | awk -F: '{ print $2 }' | sed 's/[",]//g')
-    
-      docker build --build-arg version=${version} -t robsonbittencourt/hubot.js:latest -t robsonbittencourt/hubot.js:${version} . ;
-    
-      docker push docker.io/robsonbittencourt/hubot.js:latest ;
-
-      docker push docker.io/robsonbittencourt/hubot.js:${version} ;
-    fi
