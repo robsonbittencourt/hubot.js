@@ -1,10 +1,11 @@
 sudo: required
 
 language: node_js
+
 node_js:
-  - "6.9.1"
-  - "7.0.0"
-  - "7.1.0"
+  - 6.9.1
+  - 7.0.0
+  - 7.1.0
 
 services:
   - docker
@@ -14,11 +15,12 @@ script:
   - npm test
 
 after_success:
-  - 'npm run coveralls'
-  
+  - npm run coveralls
+
 deploy:
   provider: npm
-  api_key: "$NPM_API_KEY"
+  api_key:
+    secure: PNVxGGp2oUF/XVy81PiBDeJsytnMu8lTiUImX6tkgqepPm6OKjKUau7vNsTH6shYGMm7bo/S6RvOAuqYZiYWbm3k1PZK/GIlHqq/zSsNV6B4fo3F1w9BpMN8xOS+kfHcpeyhm1LO0wUk4iFhzIIlmUmrMR5dBaBz6jCQj6aKFl1yRKNRzSxl4NfKA5N3mR5yPI852XR6d1nHlWafvo6Q3+7+hcedoQn8wzxmHmRWxdWUT7NG/LcoYjpGWR3zNg0/4buMuHCze+kGwQBTZnUXAN2fPBHRq+57e9Vsbxz4UK/zvaUs8wuDCppFUJ0qDtA2Jh3sM19WG97y3kETNC6mtDSdfpiszlb37ipp2/ilx8Db5KV7PGB+8tXUvjt2510o+l/ZUk/MWd3GTk5m9Og5CGTDrCZTLW6DlRmBTgew9Bssdyid2SkfkR20cU1AgsBFRLAhI/qI0CGXcLQTsnWGhKo2zqTOdZEteKgo/U/Js7N/R7TTFjPakeslxq4DmrYiMDIiwtMDRLPTHXPq0NoDq+s7BKPeIui3cS9kNxPqlHzsSh/91qrfnGphhQbHMMt0LZ/Kws53MPqSrWfgcclI0eqE9a6kNGiu+QxmOMTtud+KREo2gidq5Aa8mzHUYro8FtQfO2kCDwDD0KnqNTjVN2R7atuBmc25q6LL6INloWo=
   on:
     branch: build
 
