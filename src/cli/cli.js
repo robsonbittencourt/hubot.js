@@ -40,9 +40,10 @@ function chooseCommand() {
 
 function createParameters() {
   yargs.alias('t', 'token')
-       .alias('n', 'name');
+       .alias('n', 'name')
+       .global('token')
+       .global('name');
 }
-
 
 function createHelpMessage() {
   yargs.usage(`Hubot.js \nUsage: hubot <command> [options]`)
@@ -56,7 +57,7 @@ function createHelpMessage() {
 
 function start(args) {
   const argsArray = buildArgsArray(args);
-  const config = { script: 'src/cli/init-core.js', name: 'hubot', args: argsArray, maxRestarts: 2 };
+  const config = { cwd: __dirname, script: 'init-core.js', name: 'hubot', args: argsArray, maxRestarts: 2 };
 
   pm2.start(config, () => pm2.disconnect());
 }

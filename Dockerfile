@@ -1,13 +1,11 @@
-FROM alpine
+FROM node:7.1.0-alpine
 
-RUN apk add --update bash nodejs curl && rm -rf /var/cache/apk/*
+RUN apk add --update bash curl && rm -rf /var/cache/apk/*
 
 WORKDIR /hubot
 
-COPY ./package.json /hubot/
+COPY ./hubot.js-1.0.0.tgz /hubot/
 
-RUN npm install --production
+RUN npm install -g hubot.js-1.0.0.tgz
 
-COPY ./ /hubot/
-
-CMD BOT_API_TOKEN=$BOT_API_TOKEN BOT_NAME=$BOT_NAME node app.js
+CMD hubot start --t $BOT_API_TOKEN --n $BOT_NAME && tail -F -n0 /etc/hosts
