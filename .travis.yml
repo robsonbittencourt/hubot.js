@@ -3,8 +3,6 @@ sudo: required
 language: node_js
 
 node_js:
-  - 6.9.1
-  - 7.0.0
   - 7.1.0
 
 services:
