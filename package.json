@@ -1,6 +1,6 @@
 {
   "name": "huboty",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A small robot written in Javascript (He does not like coffeescript)",
   "main": "index.js",
   "bin": {
