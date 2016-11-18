@@ -1,6 +1,6 @@
 {
-  "name": "huboty",
-  "version": "1.0.1",
+  "name": "hubot.js",
+  "version": "1.0.0",
   "description": "A small robot written in Javascript (He does not like coffeescript)",
   "main": "index.js",
   "bin": {
