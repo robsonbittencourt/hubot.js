@@ -104,7 +104,7 @@ If you have doubt about the available commands, please ask me for help. I'll be 
 hubot help
 ```
 
-![hubot-help](https://s9.postimg.org/rf26x119b/hubot_help.png)
+![hubot-help](https://s16.postimg.org/ud098yqk5/hubot_help.png)
 
 ## Development setup
 - Fork and clone this project
