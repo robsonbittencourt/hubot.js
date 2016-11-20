@@ -109,7 +109,6 @@ hubot help
 ## Development setup
 - Fork and clone this project
 - In the main directory run ```npm install```to install dependencies.
-- Use node command (see before) for run Hubot.js
 - Write your code
 - To run tests use ```npm test``` command
 
