@@ -39,13 +39,13 @@ After you install me through npm some commands are avaliable in your command lin
 
 ### Commands overview 
 
-```
-$ hubot help                                      # Show the help with available commands
-$ hubot configure -t slackBotToken -n botName     # Saves the required settings These settings are stored, so you just need to do them once. But if necessary can make them again.
-$ hubot start                                     # Start the hubot. To use this command, the settings have already been made.
-$ hubot start -t slackBotToken -n botName         # Start the hubot. This command saves the configuration and starts. 
-$ hubot stop                                      # Stop the hubot.
-$ hubot restart                                   # Restart the hubot.
+```bash
+$ hubot help                              # Show the help with available commands
+$ hubot configure -t botToken -n botName  # Saves the required settings These settings are stored, so you just need to do them once. But if necessary can make them again.
+$ hubot start                             # Start the hubot. To use this command, the settings have already been made.
+$ hubot start -t botToken -n botName      # Start the hubot. This command saves the configuration and starts. 
+$ hubot stop                              # Stop the hubot.
+$ hubot restart                           # Restart the hubot.
 
 ```
 
