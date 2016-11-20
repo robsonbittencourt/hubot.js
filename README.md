@@ -36,7 +36,7 @@ docker run -d -e BOT_API_TOKEN=bot_token \
 
 After you install me through npm some commands are avaliable in your command line. If you start me with Docker these commands don't are available. But with the exception of the help command the others can be executed with Docker commands (docker start/stop/restart).
 
-### Commands overview 
+### CLI Commands Overview 
 
 ```bash
 # Show the help with available commands
@@ -57,14 +57,27 @@ $ hubot stop
 
 # Restart the hubot.
 $ hubot restart                           
-
 ```
 
 ### First iteration
 
 After you start me call me by my name in private chat. With this I show to you some first instructions.
 
+GIF
 ![first-iteraction](https://s22.postimg.org/ofi3g0469/hubot_first_iteraction.png)
+
+
+### Activate/Deactivate Gears
+
+You don't want to use some gear? You can disable it. If you want to activate it again it is also possible. Use `activate gear-name` or `deactivate gear-name`.
+
+GIF
+
+### Configure Gears
+
+Some gears need to be set up before first use. Use `configure gear-name` command.
+
+GIF
 
 ## Gears
 
