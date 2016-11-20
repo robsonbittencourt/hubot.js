@@ -13,7 +13,7 @@ Hello! My name is Hubot. I'm a robot and my job is to do stuff in Slack chats. A
 
 The first step is to have a bot user in Slack. If you don't have a bot yet [click here](https://api.slack.com/bot-users) to create one. With a bot user created get the token that was generated in the bot creation and go to the next step.
 
-### npm
+#### npm
 
 Very simple. Run the command below.
 
@@ -21,7 +21,7 @@ Very simple. Run the command below.
 npm install -g hubot.js
 ```
 
-### Docker
+#### Docker
 
 To enable me with Docker it's a piece of cake. I have a recipe of how to build me in [Dockerhub](https://hub.docker.com/r/robsonbittencourt/hubot.js/). Just run the following command:
 
@@ -36,7 +36,7 @@ docker run -d -e BOT_API_TOKEN=bot_token \
 
 After you install me through npm some commands are avaliable in your command line. If you start me with Docker these commands don't are available. But with the exception of the help command the others can be executed with Docker commands (docker start/stop/restart).
 
-### CLI Commands Overview 
+#### CLI Commands Overview 
 
 ```bash
 # Show the help with available commands
@@ -59,19 +59,19 @@ $ hubot stop
 $ hubot restart                           
 ```
 
-### First iteration
+#### First iteration
 
 After you start me call me by my name in private chat. With this I show to you some first instructions.
 
 ![first-iteraction](https://s14.postimg.org/q4lmjsrpd/hubot_first_iteraction.png)
 
-### Activate/Deactivate Gears
+#### Activate/Deactivate Gears
 
 You don't want to use some gear? You can disable it. If you want to activate it again it is also possible. Use `activate gear-name` or `deactivate gear-name`.
 
 GIF
 
-### Configure Gears
+#### Configure Gears
 
 Some gears need to be set up before first use. Use `configure gear-name` command.
 
@@ -81,7 +81,7 @@ GIF
 
 For now, I don't know how to do many things. But I'm able to understand and to use new gears (features). You can create your own gears. If you think they can be useful for other users, please share it with the world.
 
-### Jenkins
+#### Jenkins
 
 I know how to invoke your jobs in Jenkins. For this, you need to do the setup before.
 
@@ -96,7 +96,7 @@ hubot start job my-deploy
 
 ![start-deploy](https://s9.postimg.org/g9dt1se9b/hubot_job.png)
 
-### Help
+#### Help
 
 If you have doubt about the available commands, please ask me for help. I'll be glad to use my gears and knowledge to answer your questions.
 
