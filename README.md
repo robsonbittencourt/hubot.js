@@ -17,7 +17,7 @@ The first step is to have a bot user in Slack. If you don't have a bot yet [clic
 
 Very simple. Run the command below.
 
-```
+```bash
 npm install -g hubot.js
 ```
 
@@ -25,7 +25,7 @@ npm install -g hubot.js
 
 To enable me with Docker it's a piece of cake. I have a recipe of how to build me in [Dockerhub](https://hub.docker.com/r/robsonbittencourt/hubot.js/). Just run the following command:
 
-```
+```bash
 docker run -d -e BOT_API_TOKEN=bot_token \
               -e BOT_NAME=bot_name \
               --name=hubot \
@@ -59,6 +59,12 @@ $ hubot stop
 $ hubot restart                           
 
 ```
+
+### First iteration
+
+After you start me call me by my name in private chat. With this I show to you some first instructions.
+
+
 
 ## Gears
 
