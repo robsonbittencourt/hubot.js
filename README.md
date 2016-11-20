@@ -83,20 +83,11 @@ For now, I don't know how to do many things. But I'm able to understand and to u
 
 ### Jenkins
 
-I know how to invoke your jobs in Jenkins. For this, you need to enter your authorization link to build me.
+I know how to invoke your jobs in Jenkins. For this, you need to do the setup before.
 
 ```
-docker run -d -e BOT_API_KEY=your_slack_api_key \
-   -e BOT_NAME=name_of_your_bot \
-   -e JENKINS_AUTH_URL=your_jenkins_auth_url \
-   --restart="unless-stopped" \
-   --name=hubot \
-   robsonbittencourt/hubot.js
+configure jenkins
 ```
-If you use Jenkins without security (authentication) the authorization link is simply the access url. For example: `http://your.jenkins.com:8080`
-
-If you use the Jenkins authentication, you need to find your access token. It can be obtained from `yourJenkinsUrl/me/configure`. See more details [here](https://wiki.jenkins-ci.org/display/JENKINS/Authenticating+scripted+clients). In this case your authorization link should be in this format: `http://your_user:your_token@your_jenkins_url`
-
 After that, you can ask me to do your jobs.
 
 ```
