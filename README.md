@@ -39,7 +39,7 @@ After you install me through npm some commands are avaliable in your command lin
 
 ### Commands overview 
 
-```
+```bash
 # Show the help with available commands
 $ hubot help                              
 
