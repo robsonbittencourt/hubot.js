@@ -120,4 +120,4 @@ Robson Bittencourt - @rluizv - robson.luizv@gmail.com
 
 Distributed under the MIT license. See [LICENSE](LICENSE) for more information.
 
-https://github.com/robsonbittencourt/hubot.js
+https://github.com/hubot-js/hubot.js
