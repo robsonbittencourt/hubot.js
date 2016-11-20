@@ -1,5 +1,5 @@
 # hubot.js 
-[![Build Status](https://travis-ci.org/hubot-js/hubot.js.svg?branch=master)](https://travis-ci.org/hubot-js/hubot.js)  [![Coverage Status](https://coveralls.io/repos/github/hubot-js/hubot.js/badge.svg?branch=master)](https://coveralls.io/github/hubot-js/hubot.js?branch=master)   [![Code Climate](https://img.shields.io/codeclimate/github/hubot-js/hubot.js.svg)](https://codeclimate.com/github/hubot-js/hubot.js)  [![dependencies-badge](https://david-dm.org/hubot-js/hubot.js.svg)](https://david-dm.org/hubot-js/hubot.js)  [![devDependencies Status](https://david-dm.org/hubot-js/hubot.js/dev-status.svg)](https://david-dm.org/hubot-js/hubot.js?type=dev)  [![Docker Stars](https://img.shields.io/docker/stars/robsonbittencourt/hubot.js.svg)](https://hub.docker.com/r/robsonbittencourt/hubot.js/)  [![Docker Pulls](https://img.shields.io/docker/pulls/robsonbittencourt/hubot.js.svg)](https://hub.docker.com/r/robsonbittencourt/hubot.js/)  [![image-size](https://images.microbadger.com/badges/image/robsonbittencourt/hubot.js.svg)](http://microbadger.com/images/robsonbittencourt/hubot.js)
+[![Build Status](https://travis-ci.org/hubot-js/hubot.js.svg?branch=master)](https://travis-ci.org/hubot-js/hubot.js)   [![npm](https://img.shields.io/npm/v/gear-hubot.js.svg)](https://www.npmjs.com/package/hubot.js)   [![Coverage Status](https://coveralls.io/repos/github/hubot-js/hubot.js/badge.svg?branch=master)](https://coveralls.io/github/hubot-js/hubot.js?branch=master)   [![Code Climate](https://img.shields.io/codeclimate/github/hubot-js/hubot.js.svg)](https://codeclimate.com/github/hubot-js/hubot.js)  [![dependencies-badge](https://david-dm.org/hubot-js/hubot.js.svg)](https://david-dm.org/hubot-js/hubot.js)  [![devDependencies Status](https://david-dm.org/hubot-js/hubot.js/dev-status.svg)](https://david-dm.org/hubot-js/hubot.js?type=dev)  [![Docker Stars](https://img.shields.io/docker/stars/robsonbittencourt/hubot.js.svg)](https://hub.docker.com/r/robsonbittencourt/hubot.js/)  [![Docker Pulls](https://img.shields.io/docker/pulls/robsonbittencourt/hubot.js.svg)](https://hub.docker.com/r/robsonbittencourt/hubot.js/)  [![image-size](https://images.microbadger.com/badges/image/robsonbittencourt/hubot.js.svg)](http://microbadger.com/images/robsonbittencourt/hubot.js)
 
 > A small robot written in Javascript (He doesn't like coffeescript)
 
@@ -11,30 +11,87 @@ Hello! My name is Hubot. I'm a robot and my job is to do stuff in Slack chats. A
 
 ## How to turn me on?
 
-The first step is to create a bot user on Slack. For this, you can follow [these steps](https://api.slack.com/bot-users). With a bot user created and the token on hand we can go to the next step.
+The first step is to have a bot user in Slack. If you don't have a bot yet [click here](https://api.slack.com/bot-users) to create one. With a bot user created get the token that was generated in the bot creation and go to the next step.
+
+### npm
+
+Very simple run the command below.
+
+```
+npm install -g hubot.js
+
+```
 
 ### Docker
 
 To enable me with Docker it's a piece of cake. I have a recipe of how to build me in [Dockerhub](https://hub.docker.com/r/robsonbittencourt/hubot.js/). Just run the following command:
 
 ```
-docker run -d -e BOT_API_KEY=your_slack_api_key \
+docker run -d -e BOT_API_TOKEN=your_slack_bot_token \
    -e BOT_NAME=name_of_your_bot \
-   --restart="unless-stopped"
    --name=hubot \
    robsonbittencourt/hubot.js
 ```
 
-### Node.js
-
-If you don't use Docker no problem. You can turn me on using Node.js commands. For this set variables before node command.
-
-```
-BOT_API_KEY=your_slack_api_key BOT_NAME=name_of_your_bot node app.js
-
-```
-
 ## Usage
+
+After you install me through npm some commands are avaliable in your command line. If you use hubot.js with Docker these commands don't are available. But with the exception of the help command the others can be executed with Docker commands (docker start/stop/restart). 
+
+#### hubot help
+Show the help with available commands
+```
+  hubot help
+```
+
+#### hubot configure
+Saves the required settings
+
+Parameters:
+
+SlackBot token: --t, --token
+
+SlackBot name: --n, --name
+
+These settings are stored, so you just need to do them once. But if necessary can make them again.
+
+```
+  hubot configure --t yourSlackApiToken --n yourBotName
+```
+
+#### hubot start
+Start the hubot
+
+Parameters:
+
+SlackBot token: --t, --token (optional)
+
+SlackBot name: --n, --name (optional)
+
+If you do not want to execute the configure command you can pass the arguments to the start command. They will be saved on the first run and are not needed in the next.
+
+```
+  hubot start
+```
+
+```
+  hubot start --t yourSlackApiToken --n yourBotName
+```
+
+#### hubot stop
+Stop the hubot
+
+```
+  hubot stop
+```
+
+#### hubot restart
+Restart the hubot
+
+```
+  hubot restart
+```
+
+## Gears
 
 For now, I don't know how to do many things. But I'm able to understand and to use new gears (features). You can create your own gears. If you think they can be useful for other users, please share it with the world.
 
