@@ -35,7 +35,7 @@ docker run -d -e BOT_API_TOKEN=your_slack_bot_token \
 
 ## Usage
 
-After you install me through npm some commands are avaliable in your command line. If you use hubot.js with Docker these commands don't are available. But with the exception of the help command the others can be executed with Docker commands (docker start/stop/restart).
+After you install me through npm some commands are avaliable in your command line. If you start me with Docker these commands don't are available. But with the exception of the help command the others can be executed with Docker commands (docker start/stop/restart).
 
 ### Commands overview 
 
@@ -67,7 +67,7 @@ For now, I don't know how to do many things. But I'm able to understand and to u
 
 ### Jenkins
 
-I know  how to invoke your jobs in Jenkins. For this, you need to enter your authorization link to build me.
+I know how to invoke your jobs in Jenkins. For this, you need to enter your authorization link to build me.
 
 ```
 docker run -d -e BOT_API_KEY=your_slack_api_key \
