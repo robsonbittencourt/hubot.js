@@ -43,7 +43,8 @@ After you install me through npm some commands are avaliable in your command lin
 # Show the help with available commands
 $ hubot help                              
 
-# Saves the required settings These settings are stored, so you just need to do them once. But if necessary can make them again.
+# Saves the required settings. These settings are stored, so you just need to do them once.
+# But if necessary can make them again.
 $ hubot configure -t botToken -n botName  
 
 # Start the hubot. To use this command, the settings have already been made.
