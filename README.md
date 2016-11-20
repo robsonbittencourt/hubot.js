@@ -26,10 +26,10 @@ npm install -g hubot.js
 To enable me with Docker it's a piece of cake. I have a recipe of how to build me in [Dockerhub](https://hub.docker.com/r/robsonbittencourt/hubot.js/). Just run the following command:
 
 ```
-docker run -d -e BOT_API_TOKEN=your_slack_bot_token \
-   -e BOT_NAME=name_of_your_bot \
-   --name=hubot \
-   robsonbittencourt/hubot.js
+docker run -d -e BOT_API_TOKEN=bot_token \
+              -e BOT_NAME=bot_name \
+              --name=hubot \
+              robsonbittencourt/hubot.js
 ```
 
 ## Usage
