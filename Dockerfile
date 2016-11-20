@@ -6,4 +6,4 @@ ARG version
 
 RUN npm install -g hubot.js@$version
 
-CMD hubot start --t $BOT_API_KEY --n $BOT_NAME && tail -F -n0 /etc/hosts
+CMD hubot start --t $BOT_API_TOKEN --n $BOT_NAME && tail -F -n0 /etc/hosts
