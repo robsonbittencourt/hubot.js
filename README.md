@@ -40,12 +40,23 @@ After you install me through npm some commands are avaliable in your command lin
 ### Commands overview 
 
 ```bash
-$ hubot help                              # Show the help with available commands
-$ hubot configure -t botToken -n botName  # Saves the required settings These settings are stored, so you just need to do them once. But if necessary can make them again.
-$ hubot start                             # Start the hubot. To use this command, the settings have already been made.
-$ hubot start -t botToken -n botName      # Start the hubot. This command saves the configuration and starts. 
-$ hubot stop                              # Stop the hubot.
-$ hubot restart                           # Restart the hubot.
+# Show the help with available commands
+$ hubot help                              
+
+# Saves the required settings These settings are stored, so you just need to do them once. But if necessary can make them again.
+$ hubot configure -t botToken -n botName  
+
+# Start the hubot. To use this command, the settings have already been made.
+$ hubot start                             
+
+# Start the hubot. This command saves the configuration and starts. 
+$ hubot start -t botToken -n botName      
+
+# Stop the hubot.
+$ hubot stop                              
+
+# Restart the hubot.
+$ hubot restart                           
 
 ```
 
