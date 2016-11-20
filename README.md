@@ -63,7 +63,7 @@ $ hubot restart
 
 After you start me call me by my name in private chat. With this I show to you some first instructions.
 
-![first-iteraction](https://s22.postimg.org/ofi3g0469/hubot_first_iteraction.png)
+![first-iteraction](https://s14.postimg.org/q4lmjsrpd/hubot_first_iteraction.png)
 
 ### Activate/Deactivate Gears
 
