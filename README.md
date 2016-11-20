@@ -19,7 +19,6 @@ Very simple. Run the command below.
 
 ```
 npm install -g hubot.js
-
 ```
 
 ### Docker
