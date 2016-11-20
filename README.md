@@ -15,7 +15,7 @@ The first step is to have a bot user in Slack. If you don't have a bot yet [clic
 
 ### npm
 
-Very simple run the command below.
+Very simple. Run the command below.
 
 ```
 npm install -g hubot.js
@@ -35,60 +35,18 @@ docker run -d -e BOT_API_TOKEN=your_slack_bot_token \
 
 ## Usage
 
-After you install me through npm some commands are avaliable in your command line. If you use hubot.js with Docker these commands don't are available. But with the exception of the help command the others can be executed with Docker commands (docker start/stop/restart). 
+After you install me through npm some commands are avaliable in your command line. If you use hubot.js with Docker these commands don't are available. But with the exception of the help command the others can be executed with Docker commands (docker start/stop/restart).
 
-#### hubot help
-Show the help with available commands
-```
-  hubot help
-```
-
-#### hubot configure
-Saves the required settings
-
-Parameters:
-
-SlackBot token: --t, --token
-
-SlackBot name: --n, --name
-
-These settings are stored, so you just need to do them once. But if necessary can make them again.
+### Commands overview 
 
 ```
-  hubot configure --t yourSlackApiToken --n yourBotName
-```
+$ hubot help                                      # Show the help with available commands
+$ hubot configure -t slackBotToken -n botName     # Saves the required settings These settings are stored, so you just need to do them once. But if necessary can make them again.
+$ hubot start                                     # Start the hubot. To use this command, the settings have already been made.
+$ hubot start -t slackBotToken -n botName         # Start the hubot. This command saves the configuration and starts. 
+$ hubot stop                                      # Stop the hubot.
+$ hubot restart                                   # Restart the hubot.
 
-#### hubot start
-Start the hubot
-
-Parameters:
-
-SlackBot token: --t, --token (optional)
-
-SlackBot name: --n, --name (optional)
-
-If you do not want to execute the configure command you can pass the arguments to the start command. They will be saved on the first run and are not needed in the next.
-
-```
-  hubot start
-```
-
-```
-  hubot start --t yourSlackApiToken --n yourBotName
-```
-
-#### hubot stop
-Stop the hubot
-
-```
-  hubot stop
-```
-
-#### hubot restart
-Restart the hubot
-
-```
-  hubot restart
 ```
 
 ## Gears
