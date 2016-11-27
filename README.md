@@ -7,7 +7,7 @@
 
 Hello! My name is Hubot. I'm a robot and my job is to do stuff in Slack chats. At first, I don't know many things, but when gears are attached everything is possible. I love new gears. Feel free to create them.
 
-![start-deploy-gif](https://s10.postimg.org/jl5ptldnt/hubot_start_deploy2.gif)
+![start-deploy-gif](media/start-job.gif)
 
 ## How to turn me on?
 
@@ -63,7 +63,7 @@ $ hubot restart
 
 After you start me call me by my name in private chat. With this I show to you some first instructions.
 
-![first-iteraction](https://s14.postimg.org/q4lmjsrpd/hubot_first_iteraction.png)
+![first-iteraction](media/first-iteraction.png)
 
 **_An important detail. To ask me things on a channel I have to be participating in it._**
 
@@ -71,13 +71,13 @@ After you start me call me by my name in private chat. With this I show to you s
 
 You don't want to use some gear? You can disable it. If you want to activate it again it is also possible. Use `activate gear-name` or `deactivate gear-name`.
 
-GIF
+![activate-deactivate-gear](media/activate-deactivate-gear.gif)
 
 ### Configure Gears
 
 Some gears need to be set up before first use. Use `configure gear-name` command.
 
-GIF
+![configure-gear](media/configure-gear.gif)
 
 ## Gears
 
@@ -97,7 +97,7 @@ After that, you can ask me to do your jobs.
 hubot start job my-deploy
 ```
 
-![start-deploy](https://s9.postimg.org/g9dt1se9b/hubot_job.png)
+![start-job](media/start-job.png)
 
 ### Help
 
@@ -107,7 +107,7 @@ If you have doubt about the available commands, please ask me for help. I'll be 
 hubot help
 ```
 
-![hubot-help](https://s16.postimg.org/ud098yqk5/hubot_help.png)
+![help](media/help.png)
 
 ## Development setup
 - Fork and clone this project
