@@ -34,7 +34,7 @@ docker run -d -e BOT_API_TOKEN=bot_token \
 
 ## Usage
 
-After you install me through npm some commands are avaliable in your command line. If you start me with Docker these commands don't are available. But with the exception of the help command the others can be executed with Docker commands (docker start/stop/restart).
+After you install me through npm some commands are avaliable in your command line. If you start me with Docker these commands won't are available. Help and configure are commands exclusively for console with npm installation. The other commands can be executed with Docker commands - like docker start/stop/restart.
 
 ### CLI Commands Overview 
 
@@ -46,7 +46,7 @@ $ hubot help
 # But if necessary can make them again.
 $ hubot configure -t botToken -n botName  
 
-# Start the hubot. To use this command, the settings have already been made.
+# Start the hubot. To use this command, the settings must have been already set up.
 $ hubot start                             
 
 # Start the hubot. This command saves the configuration and starts. 
