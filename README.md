@@ -65,7 +65,7 @@ After you start me call me by my name in private chat. With this I show to you s
 
 ![first-iteraction](https://s14.postimg.org/q4lmjsrpd/hubot_first_iteraction.png)
 
-**An important detail. To ask me things on a channel I have to be participating in it.**
+**_An important detail. To ask me things on a channel I have to be participating in it._**
 
 ### Activate/Deactivate Gears
 
