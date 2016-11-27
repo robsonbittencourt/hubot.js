@@ -65,6 +65,8 @@ After you start me call me by my name in private chat. With this I show to you s
 
 ![first-iteraction](https://s14.postimg.org/q4lmjsrpd/hubot_first_iteraction.png)
 
+**An important detail. To ask me things on a channel I have to be participating in it.**
+
 ### Activate/Deactivate Gears
 
 You don't want to use some gear? You can disable it. If you want to activate it again it is also possible. Use `activate gear-name` or `deactivate gear-name`.
