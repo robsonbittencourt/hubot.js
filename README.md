@@ -28,6 +28,7 @@ To enable me with Docker it's a piece of cake. I have a recipe of how to build m
 ```bash
 docker run -d -e BOT_API_TOKEN=bot_token \
               -e BOT_NAME=bot_name \
+              -v ~/hubot.js/data:/home/hubot.js/data
               --name=hubot \
               robsonbittencourt/hubot.js
 ```
@@ -66,6 +67,11 @@ After you start me call me by my name in private chat. With this I show to you s
 ![first-iteraction](media/first-iteraction.png)
 
 **_An important detail. To ask me things on a channel I have to be participating in it._**
+
+### Database
+I store my configuration data in a database. This database is set to "~ home / hubot.js / data / hubot.db". It is important that you back up this file so that I do not lose my memory.
+
+If you run me using Docker you can map the database file as shown in the [runtime sample with Docker](#docker).
 
 ### Activate/Deactivate Gears
 

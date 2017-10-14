@@ -38,6 +38,7 @@
     "yargs": "^8.0.1",
     "i18next": "^7.1.0",
     "i18next-sync-fs-backend": "^0.1.0",
+    "fs-extra":"^4.0.2",
     "gear-help": "^2.1.0",
     "gear-jenkins": "^2.1.1"
   },
