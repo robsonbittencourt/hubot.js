@@ -28,7 +28,7 @@ function changeStatus(isAdmin, action, hubot, message, gearDescription) {
       } else {
         changeGearStatus(action, hubot, gear.description)
           .then(() => hubot.speak(message, sucessMessage(action, hubot, gear.description)),
-          () => hubot.speak(message, errorMessage(action, hubot, gear.description)));
+            () => hubot.speak(message, errorMessage(action, hubot, gear.description)));
       }
     }
   }

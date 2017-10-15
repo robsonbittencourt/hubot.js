@@ -13,9 +13,9 @@ const dbPath = path.join(process.env.HOME, 'hubot.js', 'data');
 
 function startDb() {
   return createDir()
-        .then(open)
-        .then(migrate)
-        .catch(() => { }); // do nothing
+    .then(open)
+    .then(migrate)
+    .catch(() => { }); // do nothing
 }
 
 function createDir() {
@@ -32,7 +32,7 @@ function migrate(sqliteDb) {
   const migrations = path.join(__dirname, '../..', 'migrations');
 
   return sqliteDb.migrate({ migrationsPath: migrations })
-          .then((result) => { database = result; });
+    .then((result) => { database = result; });
 }
 
 function getDb() {

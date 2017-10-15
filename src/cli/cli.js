@@ -40,19 +40,19 @@ function chooseCommand() {
 
 function createParameters() {
   yargs.alias('t', 'token')
-       .alias('n', 'name')
-       .global('token')
-       .global('name');
+    .alias('n', 'name')
+    .global('token')
+    .global('name');
 }
 
 function createHelpMessage() {
   yargs.usage('Hubot.js \nUsage: hubot <command> [options]')
-       .command(START_COMMAND, 'Start the hubot')
-       .command(STOP_COMMAND, 'Stop the hubot')
-       .command(RESTART_COMMAND, 'Restart the hubot')
-       .command(CONFIGURE_COMMAND, 'Restart the hubot')
-       .describe('t', 'Inform Slack API Token')
-       .describe('n', 'Inform the bot name');
+    .command(START_COMMAND, 'Start the hubot')
+    .command(STOP_COMMAND, 'Stop the hubot')
+    .command(RESTART_COMMAND, 'Restart the hubot')
+    .command(CONFIGURE_COMMAND, 'Restart the hubot')
+    .describe('t', 'Inform Slack API Token')
+    .describe('n', 'Inform the bot name');
 }
 
 function start(args) {

@@ -11,7 +11,6 @@ const i18n = require('./lib/i18n');
 const gearNamePrefix = 'gear-';
 
 module.exports = class Assembler {
-
   constructor(gearsPath, isInternal) {
     this.gears = [];
     this.gearsPath = gearsPath;
@@ -67,7 +66,7 @@ module.exports = class Assembler {
       if (!record) {
         gear.active = true;
         db.getDb().run('INSERT INTO gears(name, description, active) VALUES(?, ?, ?)',
-                      gear.name, gear.description, gear.active);
+          gear.name, gear.description, gear.active);
       } else {
         gear.active = record.active === '1';
       }

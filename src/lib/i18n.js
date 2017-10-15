@@ -22,7 +22,7 @@ const initOptions = {
 };
 
 i18n.use(backend)
-    .init(initOptions);
+  .init(initOptions);
 
 function t(key, vars) {
   if (i18n.exists(key)) {

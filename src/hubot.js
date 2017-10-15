@@ -9,7 +9,6 @@ const speech = require('./speech');
 let core;
 
 module.exports = class Hubot {
-
   constructor(receivedCore) {
     this.gears = [];
     core = receivedCore;
@@ -24,7 +23,7 @@ module.exports = class Hubot {
     setTimeout(() => {
       core.postMessage(recipient, i18n.t(text, vars), { as_user: true })
         .then(() => deferred.resolve(),
-              () => deferred.reject());
+          () => deferred.reject());
     }, delay);
 
     return deferred.promise;
@@ -87,5 +86,4 @@ module.exports = class Hubot {
 
     return messageWithoutBotName;
   }
-
 };
